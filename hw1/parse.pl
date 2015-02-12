@@ -4,44 +4,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %sentence end terminator
-end('.').
+end --> ['.'].
 
 %Determiners
-det(a).
-det(the).
-det(every).
+det(det(a)) --> [a].
+det(det(the)) --> [the].
+det(det(every)) --> [every].
 
 %Nouns
-noun(train).
-noun(flight).
-noun(bike).
-noun(person).
+noun(noun(train)) --> [train].
+noun(noun(flight)) --> [flight].
+noun(noun(bike)) --> [bike].
+noun(noun(person)) --> [person].
 
 %Verbs
-verb(left).
-verb(stayed).
-verb(flew).
-verb(arrived).
+verb(verb(left)) --> [left].
+verb(verb(stayed)) --> [stayed].
+verb(verb(flew)) --> [flew].
+verb(verb(arrived)) --> [arrived].
 
 %Nominal
-nom(Word):-
-	noun(Word).
+nom(nom(Word)) --> noun(Word).
 
 %Verb Phrase, expects a verb
-vp(Word):-
-	verb(Word).
+vp(vp(Word)) --> verb(Word).
 
 %Noun Phrase, expects a determiner and noun
-np(Word1,Word2):-
-	det(Word1),
-	nom(Word2).
+np(np(Word1,Word2)) --> det(Word1), nom(Word2).
 
 %sentence, exepects a noun phrase and verb phrase
-s(Phrase1,Phrase2):-
-	np(Phrase1),
-	vp(Phrase2),
-	end.
+s(s(S,V)) --> np(S), vp(V), end.
 
 %Loop that parses sentences
 loop:-
 	read_line(Sentence),
+	parse(Tree,Sentence),
+	write(Tree),
+	nl,
+	loop.
+
+%parse predicate
+parse(Tree,Sentence):-
+	phrase(s(Tree),Sentence).
