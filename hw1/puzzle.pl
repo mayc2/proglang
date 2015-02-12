@@ -18,9 +18,6 @@ side(A,B,C):-
 	X \== Y, X \==Z, Y \==Z,
 	sum([X,Y,Z],S),
 	S is 17.
-output([],a,b,c,d,e,f,g,h,i).
-output(Solution,A,B,C,D,E,F,G,H,I):-
-	Solution is [A,B,C,D,E,F,G,H,I].
 puzzle(Solution):-
 	side(A,B,D),
 	side(A,C,F),

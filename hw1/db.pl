@@ -47,19 +47,3 @@ loop:-
 parse(Tree,Sentence):-
 	phrase(s(Tree),Sentence).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Extra credit
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-loop_r:-
-	read_line(Sentence),
-	parse(Tree,Sentence),
-	reverse(Tree,Reversed),
-	write(Reversed),
-	nl,
-	loop_r.
-
-
-reverse(Tree,Reversed):-
-	phrase(reverse(Tree),Reversed).
-reverse([]) --> [].
-reverse([H|T]) --> reverse(T), [H].
