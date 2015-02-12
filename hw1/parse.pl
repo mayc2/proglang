@@ -3,6 +3,9 @@
 %%%grammar for the set of sentences
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%sentence end terminator
+end('.').
+
 %Determiners
 det(a).
 det(the).
@@ -34,9 +37,11 @@ np(Word1,Word2):-
 	nom(Word2).
 
 %sentence, exepects a noun phrase and verb phrase
-s(np(W,W1),Phrase2):-
-	vp(Phrase2).
+s(Phrase1,Phrase2):-
+	np(Phrase1),
+	vp(Phrase2),
+	end.
 
 %Loop that parses sentences
-lopp:-
+loop:-
 	read_line(Sentence),
