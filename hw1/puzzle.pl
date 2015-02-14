@@ -28,4 +28,6 @@ puzzle(Solution):-
 	B \== C, B \== E, B \== F, B \== G, B \== H, B \== I,
 	C \== D, C \== E, C \== G, C \== H, C \== I,
 	D \== F, E \== G, E \== H, E \== I, F \== G,
-	Solution = [A,B,C,D,E,F,G,H,I].
+	circle(A,A1), circle(B,B1), circle(C,C1), circle(D,D1), circle(E,E1),
+	circle(F,F1), circle(G,G1), circle(H,H1), circle(I,I1),
+	Solution = [A1,B1,C1,D1,E1,F1,G1,H1,I1].
