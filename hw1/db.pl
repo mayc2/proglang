@@ -26,12 +26,15 @@ verb(verb(arrive)) --> [arrived] | [arrive].
  
 %Name
 name(name(Word)) --> [Word].
+holder(h(the)) --> [the].
+holder(h(the)) --> [a].
 
 :- dynamic statement/3.
+:- dynamic statement/4.
 
 %sentence, exepects a noun phrase and verb phrase
-sentence(s(S,N,V)) --> [the], noun(S), name(N), verb(V), end, {assert(statement(S,N,V))}.
-sentence(s(S,N,V)) --> [the], noun(S), name(N), [did], [not], verb(V), end, {assert(statement(S,N,[not],V))}.
+sentence(s(D,S,N,V)) --> holder(D), noun(S), name(N), verb(V), end, {assert(statement(S,N,V))}.
+sentence(s(D,S,N,V)) --> holder(D), noun(S), name(N), [did], [not], verb(V), end, {assert(statement(S,N,[not],V))}.
 
 %question
 question(cs(D,S,N,V)) --> [did], det(D), noun(S), verb(V), q_end, {solve(D,S,N,V,B), output(B)}.
