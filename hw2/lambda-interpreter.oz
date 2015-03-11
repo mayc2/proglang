@@ -54,53 +54,31 @@ end
 %{Browse {Eta ex(l(x [y x]))}}
 %{Browse {Eta l(x ex(ex(l(x [y x]) l(x [z x])) x))}} 
 
-%Beta Reduction Implementation
+%Beta implementation
 declare
-fun {Replace Atom Exp Rep}
-   case Atom of [H T] then
-      [{Replace Atom H Rep} {Replace Atom T Rep}]
-   else
-      case Exp of l(A B) then
-	 case B of [Q T] then
-	    case Q of [C D] then
-	       [{Replace A C T} {Replace A D T}]
-	    else
-	       case T of [C D] then
-		  l({Replace A Q Rep} [{Replace A C Rep} {Replace A D Rep}])
-	       else
-		  T
-	       end
-	    end
-	 else
-	    B
-	 end
-      [] [A B] then
-	 {Replace Atom A B}
-      else
-	 if Atom==Exp then
-	    Rep
-	 else
-	    Exp
-	 end
-      end
+fun {Explore Exp Var Rep}
+   case Exp of [E1 E2] then
+      [{Explore E1 Var Rep} {Explore E2 Var Rep}]
+   [] l(V E) then l(V {Explore E Var Rep})
+   [] V then
+      if V == Var then Rep else V end
    end
 end
-%remove all l()
-fun {Beta2 X Y}
-   case X of ex(A B) then
-      {Beta2 {Beta2 A B} Y}
-   [] l(A B) then
-      {Replace A B Y}
-   else
-      X
+fun {Beta2 Exp1 Exp2}
+   case Exp1 of l(V E) then {Explore E V Exp2}
    end
 end
-%remove all ex()   
 fun {Beta Exp}
-   case Exp of ex(A B) then
-      {Beta2 {Beta A} {Beta B}}
-   else
-      Exp
+   case Exp of ex(T1 T2) then B in
+      B = {Beta2 {Beta T1} {Beta T2}}
+      case B of [B1 B2] then
+	 case B1 of l(V E) then {Beta2 B1 B2}
+	 else B1 end
+      else B end
+   [] ex(E) then {Beta E}
+   [] l(V E) then l(V {Beta E})
+   [] [E1 E2] then [{Beta E1} {Beta E2}]
+   [] V then V
    end
 end
 %{Browse {Beta ex(l(x l(y [y x])) [y w])}} %lambda(z [z [y w]])
@@ -109,10 +87,6 @@ end
 %{Browse {Beta ex(ex(l(y l(x [y x])) l(x [x x])) y)}} %[y y]
 %{Browse {Beta ex(ex(ex(l(b l(t l(e [[b t] e]))) l(x l(y x))) x) y)}} %x
 %{Browse {Beta ex(l(y ex(l(x l(y [x y])) y)) [y w])}} %[y w]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Begin Chris's Code                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Splits up inner lambda statements into tuples for easier handling
 declare
@@ -230,11 +204,11 @@ fun {Run Exp}
 end
 
 %Calls to Main Program: Test Cases
-{Browse {Run [lambda(x lambda(y [y x])) [y w]]}} %lambda(z [z [y w]])
-{Browse {Run [lambda(x lambda(y [x y])) [y w]]}} %[y w]
-{Browse {Run [lambda(x x) y]}} %y
-{Browse {Run lambda(x [y x])}} %y
-{Browse {Run [[lambda(y lambda(x [y x])) lambda(x [x x])] y]}} %[y y]
-{Browse {Run [[[lambda(b lambda(t lambda(e [[b t] e]))) lambda(x lambda(y x))] x] y]}} %x
-{Browse {Run lambda(x [[lambda(x [y x]) lambda(x [z x])] x])}} %[y z]
-{Browse {Run [lambda(y [lambda(x lambda(y [x y])) y]) [y w]]}} %[y w]
+%{Browse {Run [lambda(x lambda(y [y x])) [y w]]}} %lambda(z [z [y w]])
+%{Browse {Run [lambda(x lambda(y [x y])) [y w]]}} %[y w]
+%{Browse {Run [lambda(x x) y]}} %y
+%{Browse {Run lambda(x [y x])}} %y
+%{Browse {Run [[lambda(y lambda(x [y x])) lambda(x [x x])] y]}} %[y y]
+%{Browse {Run [[[lambda(b lambda(t lambda(e [[b t] e]))) lambda(x lambda(y x))] x] y]}} %x
+%{Browse {Run lambda(x [[lambda(x [y x]) lambda(x [z x])] x])}} %[y z]
+%{Browse {Run [lambda(y [lambda(x lambda(y [x y])) y]) [y w]]}} %[y w]
