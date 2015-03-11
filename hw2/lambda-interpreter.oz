@@ -100,9 +100,9 @@ fun {Beta Exp}
 end
 %{Browse {Beta ex(l(x l(y [y x])) [y w])}} %lambda(z [z [y w]])
 %{Browse {Beta ex(l(x l(y [x y])) [y w])}} %[y w]
-{Browse {Beta ex(l(x x) y)}} %y
-{Browse {Beta ex(ex(l(y l(x [y x])) l(x [x x])) y)}} %[y y]
-{Browse {Beta ex(ex(ex(l(b l(t l(e [[b t] e]))) l(x l(y x))) x) y)}} %x
+%{Browse {Beta ex(l(x x) y)}} %y
+%{Browse {Beta ex(ex(l(y l(x [y x])) l(x [x x])) y)}} %[y y]
+%{Browse {Beta ex(ex(ex(l(b l(t l(e [[b t] e]))) l(x l(y x))) x) y)}} %x
 %{Browse {Beta ex(l(y ex(l(x l(y [x y])) y)) [y w])}} %[y w]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
