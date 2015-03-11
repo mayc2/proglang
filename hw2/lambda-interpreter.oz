@@ -57,33 +57,38 @@ end
 %Beta Reduction Implementation
 declare
 fun {Replace Atom Exp Rep}
-   %simplify Exp next
-   case Exp of l(A B) then
-      case B of [H T] then
-	 Temp A1 R1 in
-	 A1 = Atom
-	 R1 = Rep
-	 Temp = {Replace A H T}
-	 {Replace Atom {Replace A H T} Rep}
-      end
-   end
-   %simplify atom
-   case Atom of l(A B) then
-      l(B {Replace Atom Exp Rep})
-   [] [H T] then
+   case Atom of [H T] then
       [{Replace Atom H Rep} {Replace Atom T Rep}]
    else
-      if Atom==Exp then
-	 Rep
+      case Exp of l(A B) then
+	 case B of [Q T] then
+	    case Q of [C D] then
+	       [{Replace A C T} {Replace A D T}]
+	    else
+	       case T of [C D] then
+		  l({Replace A Q Rep} [{Replace A C Rep} {Replace A D Rep}])
+	       else
+		  T
+	       end
+	    end
+	 else
+	    B
+	 end
+      [] [A B] then
+	 {Replace Atom A B}
       else
-	 Exp
+	 if Atom==Exp then
+	    Rep
+	 else
+	    Exp
+	 end
       end
    end
 end
 %remove all l()
 fun {Beta2 X Y}
-   case X of ex(Exp) then
-      {Beta2 {Beta Exp} Y}
+   case X of ex(A B) then
+      {Beta2 {Beta2 A B} Y}
    [] l(A B) then
       {Replace A B Y}
    else
