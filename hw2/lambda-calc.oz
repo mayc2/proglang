@@ -1,11 +1,11 @@
 declare
-fun {Explore Exp Atom Rep}
+fun {Replace Exp Atom Rep}
    case Exp of [E1 E2] then
-      [{Explore E1 Atom Rep} {Explore E2 Atom Rep}]
+      [{Replace E1 Atom Rep} {Replace E2 Atom Rep}]
    [] X then
       if {IsAtom X} then
 	 if X == Atom then Rep else X end
-      elseif {IsTuple X} then {Explore X.2 Atom Rep} end
+      elseif {IsTuple X} then {Replace X.2 Atom Rep} end
    end
 end
 
