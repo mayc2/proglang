@@ -15,17 +15,13 @@ fun {Simplify Var C}
       end
    end
 end
-declare
 fun {FindVar Var}
    case Var of ex(A B) then
-      Var#A#B
-      %{FindVar [{Eta A} {Eta B}]}
+      {FindVar [{Eta A} {Eta B}]}
    else
-      hello
-      %Var
+      Var
    end
 end
-declare
 fun {Eta3 X}
    case X of ex(A B) then
       [{Eta A} {Eta B}]
@@ -33,21 +29,19 @@ fun {Eta3 X}
       {Eta X}
    end
 end
-declare
-fun {Eta2 Exp Var}
-   case Exp of ex(A B) then
-      {Eta2 [{Eta3 A} {Eta3 B}] Var}
+fun {Eta2 E V}
+   case E of ex(A B) then
+      {Eta2 [{Eta3 A} {Eta3 B}] V}
    [] [C D] then
-      if {Simplify {FindVar Var} C}==nil then
-	 l(Var Exp)
+      if {Simplify V C}==nil then
+	 l(V E)
       else
 	 C
       end
    else
-      Exp
+      E
    end
 end
-declare
 fun {Eta Exp}
    case Exp of l(V E) then
       {Eta2 E V}
@@ -60,35 +54,56 @@ end
 %{Browse {Eta ex(l(x [y x]))}}
 %{Browse {Eta l(x ex(ex(l(x [y x]) l(x [z x])) x))}} 
 
-%Beta implementation
+%Beta Reduction Implementation
 declare
-fun {Explore Exp Var Rep}
-   case Exp of [E1 E2] then
-      [{Explore E1 Var Rep} {Explore E2 Var Rep}]
-   [] l(V E) then l(V {Explore E Var Rep})
-   [] V then
-      if V == Var then Rep else V end
+fun {Replace Atom Exp Rep}
+   %simplify Exp next
+   case Exp of l(A B) then
+      case B of [H T] then
+	 Temp A1 R1 in
+	 A1 = Atom
+	 R1 = Rep
+	 Temp = {Replace A H T}
+	 {Replace Atom {Replace A H T} Rep}
+      end
+   end
+   %simplify atom
+   case Atom of l(A B) then
+      l(B {Replace Atom Exp Rep})
+   [] [H T] then
+      [{Replace Atom H Rep} {Replace Atom T Rep}]
+   else
+      if Atom==Exp then
+	 Rep
+      else
+	 Exp
+      end
    end
 end
-
-declare
-fun {Beta2 Exp1 Exp2}
-   case Exp1 of l(V E) then {Explore E V Exp2}
+%remove all l()
+fun {Beta2 X Y}
+   case X of ex(Exp) then
+      {Beta2 {Beta Exp} Y}
+   [] l(A B) then
+      {Replace A B Y}
+   else
+      X
    end
 end
-
-
-declare
+%remove all ex()   
 fun {Beta Exp}
-   case Exp of ex(T1 T2) then B in
-      B = {Beta2 {Beta T1} {Beta T2}}
-      case B of [B1 B2] then
-	 case B1 of l(V E) then {Beta2 B1 B2} end
-      else B end
-   [] l(V E) then l(V E)
-   [] V then V
+   case Exp of ex(A B) then
+      {Beta2 {Beta A} {Beta B}}
+   else
+      Exp
    end
 end
+%{Browse {Beta ex(l(x l(y [y x])) [y w])}} %lambda(z [z [y w]])
+%{Browse {Beta ex(l(x l(y [x y])) [y w])}} %[y w]
+{Browse {Beta ex(l(x x) y)}} %y
+{Browse {Beta ex(ex(l(y l(x [y x])) l(x [x x])) y)}} %[y y]
+{Browse {Beta ex(ex(ex(l(b l(t l(e [[b t] e]))) l(x l(y x))) x) y)}} %x
+%{Browse {Beta ex(l(y ex(l(x l(y [x y])) y)) [y w])}} %[y w]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Begin Chris's Code                                      %
@@ -200,15 +215,13 @@ end
 %Main Run Function
 declare
 fun {Run Exp}
-   Tree Lambda in
+   Tree Lambda B R in
    Tree = {Check Exp}
    Lambda = {Test Tree}
    %Lambda
-   local B in
-      B = {Beta Lambda}
-      %{Eta B}
-      B
-   end
+   %R = {Alpha Lambda}
+   B = {Beta Lambda}
+   {Eta B}
 end
 
 %Calls to Main Program: Test Cases
