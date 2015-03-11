@@ -1,26 +1,3 @@
-%loop function
-declare
-Run = fun {$ L}
-	 %parse function? 
-         %try beta
-	 {Beta L}
-         %check for renaming
-
-         %then try eta
-      end
-
-%beta reduction function
-declare
-Beta = fun {$ Atom, Expression} 
-
-	  
-end
-
-%eta reduction function
-
-
-%alpha renaming function
-
 %Beta implementation
 declare
 fun {Explore Exp Atom Rep}
@@ -32,32 +9,67 @@ fun {Explore Exp Atom Rep}
       elseif {IsTuple X} then {Explore X.2 Atom Rep} end
    end
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Begin Chris's Code                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Splits up inner lambda statements into tuples for easier handling
 declare
-fun {Beta Exp1 Exp2}
-   if {IsAtom Exp1.2} andthen Exp1.1 == Exp1.2 then Exp2
-   else {Explore Exp1.2 Exp1.1 Exp2} end
-end
-%divides lists occurences into tuples
-declare
-fun {Check X}
-   case X of [H T] then
-      tree({Check H} {Check T})
+fun {Test3 X}
+   case X of lambda(A B) then
+      l({Test3 A} {Test3 B})
    else
       X
    end
 end
+declare
+fun {Test2 X Y}
+   case X of tree(A B) then
+      ex({Test2 A B} {Test3 B})
+   [] lambda(A B) then
+      l({Test3 A} {Test3 B})
+   else
+      X
+   end
+end
+declare
+fun {Test X}
+   case X of tree(A B) then
+      case A of tree(C D) then
+	 ex({Test2 A B} {Test3 B})
+      else
+	 ex({Test2 A B} B)
+      end
+   [] lambda(A B) then
+      ex(l({Test2 A B} X.2))
+   else
+      X
+   end
+end
+
+%divides labmda expressions into tuples
+declare
+fun {Check X}
+   case X of [H T] then
+      tree({Check H} T)
+   else
+      X
+   end
+end
+
 %Main Run Function
 declare
 fun {Run Exp}
-   T in
-   T = {Check Exp}
-   if {IsTuple T} then
-      {Beta T.1 T.2}
-   else
-      T
-   end
+   Tree Lambda in
+   Tree = {Check Exp}
+   Lambda = {Test Tree}
+   %Tree
+   %{Beta Lambda}
+   Lambda
 end
+
+%Calls to Main Program: Test Cases 
 {Browse {Run [[lambda(y lambda(x [y x])) lambda(x [x x])] y]}}
-
-
-%{Browse {Run [lambda(x x) y]}}
+{Browse {Run [lambda(x x) y]}}
+{Browse {Run lambda(x [y x])}}
