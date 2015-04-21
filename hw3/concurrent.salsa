@@ -1,0 +1,21 @@
+module hw3;
+
+behavior ClosestNeighbors{
+
+}
+
+behavior FarthestNeighbors{
+
+}
+
+behavior IdealHubStar{
+
+}
+
+behavior IdealJailStar{
+
+}
+
+behavior IdealCapitalStar{
+
+}
