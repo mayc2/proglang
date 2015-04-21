@@ -1,3 +1,11 @@
+%Alpha renaming
+fun {FindFree Exp}
+   case Exp of ex(A B) then [{FindFree A} {FindFree B}]
+   [] l(A B) then {FindFree B}
+   [] [H T] then [{FindFree H} {FindFree T}]
+   else Exp end
+end
+
 %Eta reduction
 declare
 fun {Simplify Var C}
