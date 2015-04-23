@@ -278,7 +278,7 @@ public class MainProgram extends UniversalActor  {
 			}
 			Vector stars = parse(fileName);
 			for (int i = 0; i<stars.size(); ++i){
-				Vector tmpStar = stars.get(i);
+				Vector tmpStar = (Vector)stars.get(i);
 				for (int j = 0; j<tmpStar.size(); ++j){
 					{
 						// standardOutput<-print(tmpStar.get(j)+" ")
@@ -287,6 +287,14 @@ public class MainProgram extends UniversalActor  {
 							Message message = new Message( self, standardOutput, "print", _arguments, null, null );
 							__messages.add( message );
 						}
+					}
+				}
+				{
+					// standardOutput<-print("\n")
+					{
+						Object _arguments[] = { "\n" };
+						Message message = new Message( self, standardOutput, "print", _arguments, null, null );
+						__messages.add( message );
 					}
 				}
 			}
