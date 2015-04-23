@@ -44,10 +44,10 @@ behavior MainProgram{
 			int numStars = Integer.parseInt(in.readLine());
 			while((tempStar = in.readLine()) != null){
 				String[] tempStar2 = tempStar.split(" ");
-				int x,y,z;
-				x = Integer.parseInt(tempStar2[0]);
-				y = Integer.parseInt(tempStar2[1]);
-				z = Integer.parseInt(tempStar2[2]);
+				double x,y,z;
+				x = Double.valueOf(tempStar2[0]).doubleValue();
+				y = Double.valueOf(tempStar2[1]).doubleValue();
+				z = Double.valueOf(tempStar2[2]).doubleValue();
 				Vector tmp = new Vector();
 				tmp.add(x);
 				tmp.add(y);
