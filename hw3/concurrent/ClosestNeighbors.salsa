@@ -1,5 +1,8 @@
 module concurrent;
 
+import java.io.*;
+import java.util.*;
+
 behavior ClosestNeighbors{
 
 	Object ans;

@@ -34,7 +34,7 @@ import salsa.resources.ActorService;
 import java.io.*;
 import java.util.*;
 
-public class ClosestNeighbors extends UniversalActor  {
+public class FarthestNeighbors extends UniversalActor  {
 	public static void main(String args[]) {
 		UAN uan = null;
 		UAL ual = null;
@@ -69,7 +69,7 @@ public class ClosestNeighbors extends UniversalActor  {
 			ual = new UAL( ServiceFactory.getTheater().getLocation() + System.getProperty("identifier"));
 		}
 		RunTime.receivedMessage();
-		ClosestNeighbors instance = (ClosestNeighbors)new ClosestNeighbors(uan, ual,null).construct();
+		FarthestNeighbors instance = (FarthestNeighbors)new FarthestNeighbors(uan, ual,null).construct();
 		gc.WeakReference instanceRef=new gc.WeakReference(uan,ual);
 		{
 			Object[] _arguments = { args };
@@ -82,18 +82,18 @@ public class ClosestNeighbors extends UniversalActor  {
 		RunTime.finishedProcessingMessage();
 	}
 
-	public static ActorReference getReferenceByName(UAN uan)	{ return new ClosestNeighbors(false, uan); }
-	public static ActorReference getReferenceByName(String uan)	{ return ClosestNeighbors.getReferenceByName(new UAN(uan)); }
-	public static ActorReference getReferenceByLocation(UAL ual)	{ return new ClosestNeighbors(false, ual); }
+	public static ActorReference getReferenceByName(UAN uan)	{ return new FarthestNeighbors(false, uan); }
+	public static ActorReference getReferenceByName(String uan)	{ return FarthestNeighbors.getReferenceByName(new UAN(uan)); }
+	public static ActorReference getReferenceByLocation(UAL ual)	{ return new FarthestNeighbors(false, ual); }
 
-	public static ActorReference getReferenceByLocation(String ual)	{ return ClosestNeighbors.getReferenceByLocation(new UAL(ual)); }
-	public ClosestNeighbors(boolean o, UAN __uan)	{ super(false,__uan); }
-	public ClosestNeighbors(boolean o, UAL __ual)	{ super(false,__ual); }
-	public ClosestNeighbors(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
-	public ClosestNeighbors(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
-	public ClosestNeighbors(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
-	public ClosestNeighbors()		{  }
-	public ClosestNeighbors(UAN __uan, UAL __ual, Object obj) {
+	public static ActorReference getReferenceByLocation(String ual)	{ return FarthestNeighbors.getReferenceByLocation(new UAL(ual)); }
+	public FarthestNeighbors(boolean o, UAN __uan)	{ super(false,__uan); }
+	public FarthestNeighbors(boolean o, UAL __ual)	{ super(false,__ual); }
+	public FarthestNeighbors(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
+	public FarthestNeighbors(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
+	public FarthestNeighbors(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
+	public FarthestNeighbors()		{  }
+	public FarthestNeighbors(UAN __uan, UAL __ual, Object obj) {
 		//decide the type of sourceActor
 		//if obj is null, the actor must be the startup actor.
 		//if obj is an actorReference, this actor is created by a remote actor
@@ -116,7 +116,7 @@ public class ClosestNeighbors extends UniversalActor  {
 			      setSource(sourceActor.getUAN(), sourceActor.getUAL());
 			      activateGC();
 			    }
-			    createRemotely(__uan, __ual, "concurrent.ClosestNeighbors", sourceRef);
+			    createRemotely(__uan, __ual, "concurrent.FarthestNeighbors", sourceRef);
 			  }
 
 			  // local creation
@@ -174,18 +174,18 @@ public class ClosestNeighbors extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct () {
-		Object[] __arguments = {  };
+	public UniversalActor construct() {
+		Object[] __arguments = { };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
 
 	public class State extends UniversalActor .State {
-		public ClosestNeighbors self;
+		public FarthestNeighbors self;
 		public void updateSelf(ActorReference actorReference) {
-			((ClosestNeighbors)actorReference).setUAL(getUAL());
-			((ClosestNeighbors)actorReference).setUAN(getUAN());
-			self = new ClosestNeighbors(false,getUAL());
+			((FarthestNeighbors)actorReference).setUAL(getUAL());
+			((FarthestNeighbors)actorReference).setUAN(getUAN());
+			self = new FarthestNeighbors(false,getUAL());
 			self.setUAN(getUAN());
 			self.setUAL(getUAL());
 			self.activateGC();
@@ -205,9 +205,11 @@ public class ClosestNeighbors extends UniversalActor  {
 
 		public State(UAN __uan, UAL __ual) {
 			super(__uan, __ual);
-			addClassName( "concurrent.ClosestNeighbors$State" );
+			addClassName( "concurrent.FarthestNeighbors$State" );
 			addMethodsForClasses();
 		}
+
+		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -264,44 +266,7 @@ public class ClosestNeighbors extends UniversalActor  {
 			}
 		}
 
-		Object ans;
-		void construct(){
-			ans = 0;
-		}
-		public String returnHello() {
-			return "Hello";
-		}
-		public String combineStrings(String s1, String s2) {
-			return s1+s2;
-		}
 		public void act(String[] argv) {
-			{
-				Token token_2_0 = new Token();
-				// join block
-				token_2_0.setJoinDirector();
-				{
-					Token token_3_0 = new Token();
-					// standardOutput<-print("Hello ")
-					{
-						Object _arguments[] = { "Hello " };
-						Message message = new Message( self, standardOutput, "print", _arguments, null, token_3_0 );
-						__messages.add( message );
-					}
-					// standardOutput<-print("World")
-					{
-						Object _arguments[] = { "World" };
-						Message message = new Message( self, standardOutput, "print", _arguments, token_3_0, token_2_0 );
-						__messages.add( message );
-					}
-				}
-				addJoinToken(token_2_0);
-				// standardOutput<-println(" Salsa")
-				{
-					Object _arguments[] = { " Salsa" };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
-					__messages.add( message );
-				}
-			}
 		}
 	}
 }

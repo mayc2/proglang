@@ -1,28 +1,64 @@
 module concurrent;
 
+import java.io.*;
+import java.util.*;
+
 behavior MainProgram{
 
 	/* Runs all of the calculations defined in other behavior files */
 	void act(String [] argv){
 
+		String fileName = getInputFile(argv);
+		standardOutput <- println(" the filename is "+ fileName);
+		Vector stars = parse(fileName);
+		for (int i=0; i<stars.size(); ++i){
+			standardOutput <- println(stars.get(i));
+		}
 		/* 
 			creates new instance of each actor 
 			TODO: let answers account for multiple answers
 			note: may need to change scope (make global)
 		*/
-		d1 = new ClosestNeighbors();
-		d2 = new FarthestNeighbors();
-		d3 = new IdealHubStar();
-		d4 = new IdealJailStar();
-		d5 = new IdealCapitalStar();
-	
+		// d1 = new ClosestNeighbors();
+		// d2 = new FarthestNeighbors();
+		// d3 = new IdealHubStar();
+		// d4 = new IdealJailStar();
+		// d5 = new IdealCapitalStar();
 
 		//d1 print out
-		standardOutput <- println("d1 // minimal pairwise distance") @
-		d1.compute() @
-		standardOutput <- print(token);		
+		standardOutput <- println("d1 // minimal pairwise distance");
+		// d1.compute() @
+		// standardOutput <- print(token);		
 
 		//and so on for others...
+	}
+
+	Vector parse(String fileName){
+		Vector ans = new Vector();
+		String tempStar;
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(fileName));
+			String noStars = in.readLine();
+			while((tempStar = in.readLine()) != null){
+				ans.add(tempStar);
+			}
+			in.close();
+		}
+		catch (IOException ioe){
+			standardError <-println("ERROR: Can't open file "+fileName+" for reading.");
+		}
+		return ans;
+	}
+
+	//Read Arguments (Input File)
+	String getInputFile(String [] argv){
+		if (argv.length == 1){
+			return argv[0];
+		}
+		else{
+			standardError <- println("Usage: salsa PathToProgram/MainProgram InputFile");
+			return "ERROR!";
+		}
 	}
 
 	//combines strings, used when using token-passing continuation	

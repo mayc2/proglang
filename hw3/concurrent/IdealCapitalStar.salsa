@@ -1,0 +1,12 @@
+module concurrent;
+
+import java.io.*;
+import java.util.*;
+
+behavior IdealCapitalStar{
+
+	void act(String [] argv){
+
+	}
+
+}
