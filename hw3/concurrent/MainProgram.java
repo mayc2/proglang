@@ -277,33 +277,26 @@ public class MainProgram extends UniversalActor  {
 				}
 			}
 			Vector stars = parse(fileName);
+			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
+		}
+		public void test(Vector stars) {
 			for (int i = 0; i<stars.size(); ++i){
-				Vector tmpStar = (Vector)stars.get(i);
-				for (int j = 0; j<tmpStar.size(); ++j){
-					{
-						// standardOutput<-print(tmpStar.get(j)+" ")
-						{
-							Object _arguments[] = { tmpStar.get(j)+" " };
-							Message message = new Message( self, standardOutput, "print", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
-				}
+				Star tmpStar = (Star)stars.get(i);
+				double a, b, c;
 				{
-					// standardOutput<-print("\n")
+					Token token_3_0 = new Token();
+					// tmpStar<-getX()
 					{
-						Object _arguments[] = { "\n" };
-						Message message = new Message( self, standardOutput, "print", _arguments, null, null );
+						Object _arguments[] = {  };
+						Message message = new Message( self, tmpStar, "getX", _arguments, null, token_3_0 );
 						__messages.add( message );
 					}
-				}
-			}
-			{
-				// standardOutput<-println("d1 // minimal pairwise distance")
-				{
-					Object _arguments[] = { "d1 // minimal pairwise distance" };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
+					// standardOutput<-println(token)
+					{
+						Object _arguments[] = { token_3_0 };
+						Message message = new Message( self, standardOutput, "println", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
 				}
 			}
 		}
@@ -319,10 +312,7 @@ public class MainProgram extends UniversalActor  {
 					x = Double.valueOf(tempStar2[0]).doubleValue();
 					y = Double.valueOf(tempStar2[1]).doubleValue();
 					z = Double.valueOf(tempStar2[2]).doubleValue();
-					Vector tmp = new Vector();
-					tmp.add(x);
-					tmp.add(y);
-					tmp.add(z);
+					Star tmp = ((Star)new Star(this).construct(x, y, z));
 					ans.add(tmp);
 				}
 				in.close();

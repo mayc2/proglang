@@ -11,30 +11,38 @@ behavior MainProgram{
 		String fileName = getInputFile(argv);
 		standardOutput <- println(" the filename is "+ fileName);
 		Vector stars = parse(fileName);
-		for (int i=0; i<stars.size(); ++i){
-			Vector tmpStar = (Vector) stars.get(i);
-			for (int j=0; j<tmpStar.size() ; ++j) {
-				standardOutput <- print(tmpStar.get(j) + " ");	
-			}
-			standardOutput <- print("\n");
-		}
+		// test(stars);
+
 		/* 
 			creates new instance of each actor 
 			TODO: let answers account for multiple answers
 			note: may need to change scope (make global)
 		*/
-		// d1 = new ClosestNeighbors();
+		ClosestNeighbors d1 = new ClosestNeighbors(stars);
 		// d2 = new FarthestNeighbors();
 		// d3 = new IdealHubStar();
 		// d4 = new IdealJailStar();
 		// d5 = new IdealCapitalStar();
 
 		//d1 print out
-		standardOutput <- println("d1 // minimal pairwise distance");
+		// standardOutput <- println("d1 // minimal pairwise distance");
 		// d1.compute() @
 		// standardOutput <- print(token);		
 
 		//and so on for others...
+	}
+
+	void test(Vector stars){
+		for (int i=0; i<stars.size(); ++i){
+			Star tmpStar = (Star) stars.get(i);
+			double a,b,c;
+			tmpStar<-getX() @
+			standardOutput <- println(token);
+			// a = Double.valueOf(token).doubleValue();
+			// b = tmpStar<-getY();
+			// c = tmpStar<-getZ();
+			// standardOutput <- println(a+" "+b+" "+c);
+		}
 	}
 
 	Vector parse(String fileName){
@@ -49,10 +57,7 @@ behavior MainProgram{
 				x = Double.valueOf(tempStar2[0]).doubleValue();
 				y = Double.valueOf(tempStar2[1]).doubleValue();
 				z = Double.valueOf(tempStar2[2]).doubleValue();
-				Vector tmp = new Vector();
-				tmp.add(x);
-				tmp.add(y);
-				tmp.add(z);
+				Star tmp = new Star(x,y,z);
 				ans.add(tmp);
 			}
 			in.close();

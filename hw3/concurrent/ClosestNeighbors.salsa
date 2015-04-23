@@ -4,26 +4,16 @@ import java.io.*;
 import java.util.*;
 
 behavior ClosestNeighbors{
+	Vector stars;
+	int s1,s2;
 
-	Object ans;
-
-	ClosestNeighbors(){	
-		ans=0;
-	}
-
-	String returnHello(){return "Hello";}
-	
-	String combineStrings(String s1, String s2){
-		return s1+s2;
+	ClosestNeighbors(Vector s){	
+		stars = s;
+		s1=0;
+		s2=0;
 	}
 
 	void act(String [] argv){
-		//standardOutput <- println("Testtttt");
-		//returnHello() @ standardOutput <- println(token);
-		//returnHello() @ combineStrings(token," World!") @ standardOutput <- println(token); 
-		join{
-			standardOutput <- print("Hello ") @
-			standardOutput <- print("World");
-		} @ standardOutput <- println(" Salsa");
+
 	}
 }

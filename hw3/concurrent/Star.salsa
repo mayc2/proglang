@@ -1,0 +1,33 @@
+module concurrent;
+
+import java.util.*;
+import java.io.*;
+
+behavior Star{
+	double x,y,z;
+
+	Star(double a, double b, double c){
+		x=a;
+		y=b;
+		z=c;
+	}
+
+	Vector get(){
+		Vector ans = new Vector();
+		ans.add(x);
+		ans.add(y);
+		ans.add(z);
+		return ans;
+	}
+
+	double getX(){return x;}
+	double getY(){return y;}
+	double getZ(){return z;}
+
+	/*double distance(Star other){
+		double x_val = other<-getX()-x;
+		double y_val = other<-getY()-y;
+		double z_val = other<-getZ()-z;
+		return Math.sqrt((x_val*x_val)+(y_val*y_val)+(z_val*z_val));
+	}*/	
+}
