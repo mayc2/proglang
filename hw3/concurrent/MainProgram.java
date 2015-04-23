@@ -278,12 +278,15 @@ public class MainProgram extends UniversalActor  {
 			}
 			Vector stars = parse(fileName);
 			for (int i = 0; i<stars.size(); ++i){
-				{
-					// standardOutput<-println(stars.get(i))
+				Vector tmpStar = stars.get(i);
+				for (int j = 0; j<tmpStar.size(); ++j){
 					{
-						Object _arguments[] = { stars.get(i) };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
+						// standardOutput<-print(tmpStar.get(j)+" ")
+						{
+							Object _arguments[] = { tmpStar.get(j)+" " };
+							Message message = new Message( self, standardOutput, "print", _arguments, null, null );
+							__messages.add( message );
+						}
 					}
 				}
 			}
@@ -301,9 +304,18 @@ public class MainProgram extends UniversalActor  {
 			String tempStar;
 			try {
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
-				String noStars = in.readLine();
+				int numStars = Integer.parseInt(in.readLine());
 				while ((tempStar=in.readLine())!=null) {
-					ans.add(tempStar);
+					String[] tempStar2 = tempStar.split(" ");
+					int x, y, z;
+					x = Integer.parseInt(tempStar2[0]);
+					y = Integer.parseInt(tempStar2[1]);
+					z = Integer.parseInt(tempStar2[2]);
+					Vector tmp = new Vector();
+					tmp.add(x);
+					tmp.add(y);
+					tmp.add(z);
+					ans.add(tmp);
 				}
 				in.close();
 			}
