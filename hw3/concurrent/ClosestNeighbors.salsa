@@ -1,0 +1,26 @@
+module concurrent;
+
+behavior ClosestNeighbors{
+
+	Object ans;
+
+	ClosestNeighbors(){	
+		ans=0;
+	}
+
+	String returnHello(){return "Hello";}
+	
+	String combineStrings(String s1, String s2){
+		return s1+s2;
+	}
+
+	void act(String [] argv){
+		//standardOutput <- println("Testtttt");
+		//returnHello() @ standardOutput <- println(token);
+		//returnHello() @ combineStrings(token," World!") @ standardOutput <- println(token); 
+		join{
+			standardOutput <- print("Hello ") @
+			standardOutput <- print("World");
+		} @ standardOutput <- println(" Salsa");
+	}
+}

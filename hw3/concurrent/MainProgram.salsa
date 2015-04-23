@@ -1,0 +1,33 @@
+module concurrent;
+
+behavior MainProgram{
+
+	/* Runs all of the calculations defined in other behavior files */
+	void act(String [] argv){
+
+		/* 
+			creates new instance of each actor 
+			TODO: let answers account for multiple answers
+			note: may need to change scope (make global)
+		*/
+		d1 = new ClosestNeighbors();
+		d2 = new FarthestNeighbors();
+		d3 = new IdealHubStar();
+		d4 = new IdealJailStar();
+		d5 = new IdealCapitalStar();
+	
+
+		//d1 print out
+		standardOutput <- println("d1 // minimal pairwise distance") @
+		d1.compute() @
+		standardOutput <- print(token);		
+
+		//and so on for others...
+	}
+
+	//combines strings, used when using token-passing continuation	
+	String combineStrings(String s1, String s2){
+		return s1+s2;
+	}
+
+}
