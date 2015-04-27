@@ -191,14 +191,6 @@ public class IdealCapitalStar extends UniversalActor  {
 			self.activateGC();
 		}
 
-		public void preAct(String[] arguments) {
-			getActorMemory().getInverseList().removeInverseReference("rmsp://me",1);
-			{
-				Object[] __args={arguments};
-				self.send( new Message(self,self, "act", __args, null,null,false) );
-			}
-		}
-
 		public State() {
 			this(null, null);
 		}
@@ -266,7 +258,78 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 
-		public void act(String[] argv) {
+		public void outputCapitalStars(Vector stars) {
+			{
+				Token token_2_0 = new Token();
+				// findCapitalStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, self, "findCapitalStars", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// standardOutput<-printStars(token)
+				{
+					Object _arguments[] = { token_2_0 };
+					Message message = new Message( self, standardOutput, "printStars", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void setDist(double dst, double src) {
+			dst = src;
+		}
+		public Vector findCapitalStars(Vector stars) {
+			Double smallestAverage = new Double(Double.MAX_VALUE);
+			Vector capitalStars = new Vector();
+			int numDistances = 0;
+			for (int i = 0; i<stars.size(); i++){
+				double allDistances = 0.0;
+				Star star1 = (Star)stars.get(i);
+				for (int j = 0; j<stars.size(); j++){
+					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
+					double dist = 0.0;
+					{
+						Token token_4_0 = new Token();
+						// star1<-distance(star2)
+						{
+							Object _arguments[] = { star2 };
+							Message message = new Message( self, star1, "distance", _arguments, null, token_4_0 );
+							__messages.add( message );
+						}
+						// setDist(dist, token)
+						{
+							Object _arguments[] = { dist, token_4_0 };
+							Message message = new Message( self, self, "setDist", _arguments, token_4_0, null );
+							__messages.add( message );
+						}
+					}
+					allDistances += dist;
+					numDistances++;
+				}
+				Double avg = allDistances/numDistances;
+				if (avg<smallestAverage) {{
+					smallestAverage = avg;
+					capitalStars.clear();
+					capitalStars.add(star1);
+				}
+}				else {if (avg==smallestAverage) {{
+					capitalStars.add(star1);
+				}
+}}			}
+			return capitalStars;
+		}
+		public void printStars(Vector capitals) {
+			for (int i = 0; i<capitals.size(); i++){
+				Star c = (Star)capitals.get(i);
+				{
+					// standardOutput<-println(c)
+					{
+						Object _arguments[] = { c };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
 		}
 	}
 }

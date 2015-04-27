@@ -191,14 +191,6 @@ public class IdealJailStar extends UniversalActor  {
 			self.activateGC();
 		}
 
-		public void preAct(String[] arguments) {
-			getActorMemory().getInverseList().removeInverseReference("rmsp://me",1);
-			{
-				Object[] __args={arguments};
-				self.send( new Message(self,self, "act", __args, null,null,false) );
-			}
-		}
-
 		public State() {
 			this(null, null);
 		}
@@ -266,7 +258,77 @@ public class IdealJailStar extends UniversalActor  {
 			}
 		}
 
-		public void act(String[] argv) {
+		public void outputJailStars(Vector stars) {
+			{
+				Token token_2_0 = new Token();
+				// findJailStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, self, "findJailStars", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// standardOutput<-printStars(token)
+				{
+					Object _arguments[] = { token_2_0 };
+					Message message = new Message( self, standardOutput, "printStars", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void setDist(double dst, double src) {
+			dst = src;
+		}
+		public Vector findJailStars(Vector stars) {
+			Double largestMinDistance = new Double(Double.MIN_VALUE);
+			Vector jailStars = new Vector();
+			for (int i = 0; i<stars.size(); i++){
+				Double minDistance = new Double(Double.MAX_VALUE);
+				Star star1 = (Star)stars.get(i);
+				for (int j = 0; j<stars.size(); j++){
+					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
+					double dist = 0.0;
+					{
+						Token token_4_0 = new Token();
+						// star1<-distance(star2)
+						{
+							Object _arguments[] = { star2 };
+							Message message = new Message( self, star1, "distance", _arguments, null, token_4_0 );
+							__messages.add( message );
+						}
+						// setDist(dist, token)
+						{
+							Object _arguments[] = { dist, token_4_0 };
+							Message message = new Message( self, self, "setDist", _arguments, token_4_0, null );
+							__messages.add( message );
+						}
+					}
+					if (dist<minDistance) {{
+						minDistance = dist;
+					}
+}				}
+				if (minDistance>largestMinDistance) {{
+					largestMinDistance = minDistance;
+					jailStars.clear();
+					jailStars.add(star1);
+				}
+}				else {if (minDistance==largestMinDistance) {{
+					jailStars.add(star1);
+				}
+}}			}
+			return jailStars;
+		}
+		public void printStars(Vector jails) {
+			for (int i = 0; i<jails.size(); i++){
+				Star c = (Star)jails.get(i);
+				{
+					// standardOutput<-println(c)
+					{
+						Object _arguments[] = { c };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
 		}
 	}
 }

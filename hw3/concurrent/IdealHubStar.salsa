@@ -5,37 +5,48 @@ import java.util.*;
 
 behavior IdealHubStar{
 
-	void act(String [] argv){
-		if (argv.length == 1) {
-			Vector stars = argv[0];
-			Double smallestMaxDistance = new Double(MAX_VALUE);
-			Vector hubStars;
+	void outputHubStars( Vector stars ) {
+		findHubStars(stars) @
+		standardOutput<-printStars(token);
+	}
 
-			for (int i=0; i<stars.size(); i++) {
-				Double maxDistance = new Double(MIN_VALUE);
-				for (int j=0; j<stars.size(); j++) {
-					if (i==j) continue;
-					Double dist = stars[i].distance(stars[j]);
-					if (dist > maxDistance) {
-						maxDistance = dist;
-					}
-				}
-				if (maxDistance < smallestMaxDistance) {
-					smallestMaxDistance = maxDistance;
-					hubStars.clear();
-					hubStars.add(stars[i]);
-				}
-				else if (maxDistance == smallestMaxDistance) {
-					hubStars.add(stars[i]);
+	void setDist( double dst, double src ) {
+		dst = src;
+	}
+
+	Vector findHubStars( Vector stars ) {
+		Double smallestMaxDistance = new Double(Double.MAX_VALUE);
+		Vector hubStars = new Vector();
+
+		for (int i=0; i<stars.size(); i++) {
+			Double maxDistance = new Double(Double.MIN_VALUE);
+			Star star1 = (Star) stars.get(i);
+			for (int j=0; j<stars.size(); j++) {
+				if (i==j) continue;
+				Star star2 = (Star) stars.get(j);
+				double dist = 0.0;
+				star1<-distance(star2) @ setDist(dist, token);
+				if (dist > maxDistance) {
+					maxDistance = dist;
 				}
 			}
-
-			for (int i=0; i<capitalStars.size(); i++) {
-				standardOutput <- println( "(" + hubStars[i].getX() + "," + hubStars[i].getY() + "," + hubStars[i].getZ() + ")" );
+			if (maxDistance < smallestMaxDistance) {
+				smallestMaxDistance = maxDistance;
+				hubStars.clear();
+				hubStars.add(star1);
 			}
-		} 
-		else {
-			standardError <- println( "Invalid number of arguments!" );
+			else if (maxDistance == smallestMaxDistance) {
+				hubStars.add(star1);
+			}
+		}
+
+		return hubStars;
+	}
+
+	void printStars( Vector hubs ) {
+		for (int i=0; i<hubs.size(); i++) {
+			Star c = (Star) hubs.get(i);
+			standardOutput<-println(c);
 		}
 	}
 
