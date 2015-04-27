@@ -6,7 +6,37 @@ import java.util.*;
 behavior IdealHubStar{
 
 	void act(String [] argv){
+		if (argv.length == 1) {
+			Vector stars = argv[0];
+			Double smallestMaxDistance = new Double(MAX_VALUE);
+			Vector hubStars;
 
+			for (int i=0; i<stars.size(); i++) {
+				Double maxDistance = new Double(MIN_VALUE);
+				for (int j=0; j<stars.size(); j++) {
+					if (i==j) continue;
+					Double dist = stars[i].distance(stars[j]);
+					if (dist > maxDistance) {
+						maxDistance = dist;
+					}
+				}
+				if (maxDistance < smallestMaxDistance) {
+					smallestMaxDistance = maxDistance;
+					hubStars.clear();
+					hubStars.add(stars[i]);
+				}
+				else if (maxDistance == smallestMaxDistance) {
+					hubStars.add(stars[i]);
+				}
+			}
+
+			for (int i=0; i<capitalStars.size(); i++) {
+				standardOutput <- println( "(" + hubStars[i].getX() + "," + hubStars[i].getY() + "," + hubStars[i].getZ() + ")" );
+			}
+		} 
+		else {
+			standardError <- println( "Invalid number of arguments!" );
+		}
 	}
 
 }

@@ -24,10 +24,22 @@ behavior Star{
 	double getY(){return y;}
 	double getZ(){return z;}
 
-	/*double distance(Star other){
-		double x_val = other<-getX()-x;
-		double y_val = other<-getY()-y;
-		double z_val = other<-getZ()-z;
+	void getDiff(double val1, double val2, double result) {
+		result = val1-val2;
+	}
+
+	double distance(Star other){
+		double x_val = 0.0;
+		double y_val = 0.0;
+		double z_val = 0.0;
+		other<-getX() @ getDiff(token,x,x_val);
+		other<-getY() @ getDiff(token,y,y_val);
+		other<-getZ() @ getDiff(token,z,z_val);
+
 		return Math.sqrt((x_val*x_val)+(y_val*y_val)+(z_val*z_val));
-	}*/	
+	}
+
+	String toString() {
+		return "(" + x + ", " + y + ", " + z + ")";
+	}
 }
