@@ -4,9 +4,42 @@ import java.io.*;
 import java.util.*;
 
 behavior FarthestNeighbors{
+	Vector stars;
+	Vector ans;
+	double largest;
 
-	void act(String [] argv){
+	FarthestNeighbors(Vector s){
+		stars = s;
+		ans = new Vector();
+		largest = -1;
+	}
+	
+	void findFarthest(){
+	 	for(int i=0; i<stars.size(); ++i){
+			Star temp1 = (Star)stars.get(i);
+			for (int j=i+1; j<stars.size(); ++j) {
+				Star temp2 = (Star)stars.get(j);	
+				double temp_dist = temp1.distance(temp2);
+				// standardOutput <- println(temp2.toString());
+				if (largest < temp_dist){
+					StarPair temp_pair = new StarPair(temp1,temp2);
+					if (ans.size() != 0) ans.removeAllElements();
+					ans.add(temp_pair);
+					largest = temp_dist;
+				}
+				else if (largest == temp_dist){
+					StarPair temp_pair = new StarPair(temp1,temp2);
+					ans.add(temp_pair);
+				}
+			}	
+		}
+	}
 
+	void print(){
+		standardOutput <- println("d2    // maximal pairwise distance is " + largest);
+		for(int i=0; i<ans.size(); ++i){
+			standardOutput <- println(ans.get(i).toString());
+		}
 	}
 
 }

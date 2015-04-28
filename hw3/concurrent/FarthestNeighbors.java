@@ -174,6 +174,12 @@ public class FarthestNeighbors extends UniversalActor  {
 		}
 	}
 
+	public UniversalActor construct (Vector s) {
+		Object[] __arguments = { s };
+		this.send( new Message(this, this, "construct", __arguments, null, null) );
+		return this;
+	}
+
 	public UniversalActor construct() {
 		Object[] __arguments = { };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
@@ -189,14 +195,6 @@ public class FarthestNeighbors extends UniversalActor  {
 			self.setUAN(getUAN());
 			self.setUAL(getUAL());
 			self.activateGC();
-		}
-
-		public void preAct(String[] arguments) {
-			getActorMemory().getInverseList().removeInverseReference("rmsp://me",1);
-			{
-				Object[] __args={arguments};
-				self.send( new Message(self,self, "act", __args, null,null,false) );
-			}
 		}
 
 		public State() {
@@ -266,7 +264,52 @@ public class FarthestNeighbors extends UniversalActor  {
 			}
 		}
 
-		public void act(String[] argv) {
+		Vector stars;
+		Vector ans;
+		double largest;
+		void construct(Vector s){
+			stars = s;
+			ans = new Vector();
+			largest = -1;
+		}
+		public void findFarthest() {
+			for (int i = 0; i<stars.size(); ++i){
+				Star temp1 = (Star)stars.get(i);
+				for (int j = i+1; j<stars.size(); ++j){
+					Star temp2 = (Star)stars.get(j);
+					double temp_dist = temp1.distance(temp2);
+					if (largest<temp_dist) {{
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						if (ans.size()!=0) {ans.removeAllElements();
+}						ans.add(temp_pair);
+						largest = temp_dist;
+					}
+}					else {if (largest==temp_dist) {{
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						ans.add(temp_pair);
+					}
+}}				}
+			}
+		}
+		public void print() {
+			{
+				// standardOutput<-println("d2    // maximal pairwise distance is "+largest)
+				{
+					Object _arguments[] = { "d2    // maximal pairwise distance is "+largest };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			for (int i = 0; i<ans.size(); ++i){
+				{
+					// standardOutput<-println(ans.get(i).toString())
+					{
+						Object _arguments[] = { ans.get(i).toString() };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
 		}
 	}
 }

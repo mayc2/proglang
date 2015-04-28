@@ -258,6 +258,7 @@ public class IdealJailStar extends UniversalActor  {
 			}
 		}
 
+<<<<<<< HEAD
 		public void findJailStars(Vector stars) {
 			Double largestMinDistance = new Double(Double.MIN_VALUE);
 			Vector jailStars = new Vector();
@@ -321,5 +322,7 @@ public class IdealJailStar extends UniversalActor  {
 				}
 			}
 		}
+=======
+>>>>>>> 498e6c6a1c1fea4c5ba06b62d3f9fde124a1522d
 	}
 }

@@ -42,5 +42,4 @@ behavior IdealHubStar{
 			}
 		} @ standardOutput<-println();
 	}
-
 }

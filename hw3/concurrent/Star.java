@@ -3,7 +3,7 @@ package concurrent;
 import java.util.*;
 import java.io.*;
 
-public class Star{
+public class Star implements Serializable{
 	public double x,y,z;
 
 	public Star(double a, double b, double c){
@@ -20,9 +20,9 @@ public class Star{
 		return ans;
 	}
 
-	private double getX(){return x;}
-	private double getY(){return y;}
-	private double getZ(){return z;}
+	public double getX(){return x;}
+	public double getY(){return y;}
+	public double getZ(){return z;}
 
 	public double getDiff(double val1, double val2) {
 		return val1-val2;

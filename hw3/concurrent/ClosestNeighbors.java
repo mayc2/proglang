@@ -197,14 +197,6 @@ public class ClosestNeighbors extends UniversalActor  {
 			self.activateGC();
 		}
 
-		public void preAct(String[] arguments) {
-			getActorMemory().getInverseList().removeInverseReference("rmsp://me",1);
-			{
-				Object[] __args={arguments};
-				self.send( new Message(self,self, "act", __args, null,null,false) );
-			}
-		}
-
 		public State() {
 			this(null, null);
 		}
@@ -273,13 +265,51 @@ public class ClosestNeighbors extends UniversalActor  {
 		}
 
 		Vector stars;
-		int s1, s2;
+		Vector ans;
+		double smallest;
 		void construct(Vector s){
 			stars = s;
-			s1 = 0;
-			s2 = 0;
+			ans = new Vector();
+			smallest = 1000000000;
 		}
-		public void act(String[] argv) {
+		public void findClosest() {
+			for (int i = 0; i<stars.size(); ++i){
+				Star temp1 = (Star)stars.get(i);
+				for (int j = i+1; j<stars.size(); ++j){
+					Star temp2 = (Star)stars.get(j);
+					double temp_dist = temp1.distance(temp2);
+					if (smallest>temp_dist) {{
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						if (ans.size()!=0) {ans.removeAllElements();
+}						ans.add(temp_pair);
+						smallest = temp_dist;
+					}
+}					else {if (smallest==temp_dist) {{
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						ans.add(temp_pair);
+					}
+}}				}
+			}
+		}
+		public void print() {
+			{
+				// standardOutput<-println("d1    // minimal pairwise distance is "+smallest)
+				{
+					Object _arguments[] = { "d1    // minimal pairwise distance is "+smallest };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			for (int i = 0; i<ans.size(); ++i){
+				{
+					// standardOutput<-println(ans.get(i).toString())
+					{
+						Object _arguments[] = { ans.get(i).toString() };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
 		}
 	}
 }

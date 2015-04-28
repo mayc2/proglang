@@ -12,6 +12,11 @@ behavior MainProgram{
 		standardOutput <- println(" the filename is "+ fileName);
 		Vector stars = parse(fileName);
 		// test(stars);
+		// for(int i=0; i<1000; ++i){
+		// 	for(int j=i+1; j<1000; ++j){
+		// 		standardOutput <- println(stars.get(i).toString() + "   " + stars.get(j).toString());
+		// 	}
+		// }
 
 		/* 
 			creates new instance of each actor 
@@ -19,17 +24,15 @@ behavior MainProgram{
 			note: may need to change scope (make global)
 		*/
 		ClosestNeighbors d1 = new ClosestNeighbors(stars);
-		// d2 = new FarthestNeighbors();
-		// d3 = new IdealHubStar();
-		// d4 = new IdealJailStar();
-		// d5 = new IdealCapitalStar();
-
-		//d1 print out
-		// standardOutput <- println("d1 // minimal pairwise distance");
-		// d1.compute() @
-		// standardOutput <- print(token);		
-
-		//and so on for others...
+		d1 <- findClosest() @ 
+		d1 <- print();
+		FarthestNeighbors d2 = new FarthestNeighbors(stars);
+		d2 <- findFarthest() @
+		d2 <- print();
+		// IdealHubStar d3 = new IdealHubStar(stars);
+		// d3 <- findHubStars();
+		// IdealJailStar d4 = new IdealJailStar(stars);
+		// IdealCapitalStar d5 = new IdealCapitalStar(stars);
 	}
 
 	void test(Vector stars){
