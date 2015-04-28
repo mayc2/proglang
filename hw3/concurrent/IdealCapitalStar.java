@@ -258,10 +258,7 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 
-		public void addDist(double totalDist, double dist) {
-			totalDist += dist;
-		}
-		public Vector findCapitalStars(Vector stars) {
+		public void findCapitalStars(Vector stars) {
 			Double smallestAverage = new Double(Double.MAX_VALUE);
 			Vector capitalStars = new Vector();
 			int numDistances = 0;
@@ -270,21 +267,8 @@ public class IdealCapitalStar extends UniversalActor  {
 				Star star1 = (Star)stars.get(i);
 				for (int j = 0; j<stars.size(); j++){
 					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
-					Token dist = new Token("dist");
-					{
-						// token dist = star1<-distance(star2)
-						{
-							Object _arguments[] = { star2 };
-							Message message = new Message( self, star1, "distance", _arguments, null, dist );
-							__messages.add( message );
-						}
-						// addDist(dist)
-						{
-							Object _arguments[] = { dist };
-							Message message = new Message( self, self, "addDist", _arguments, dist, null );
-							__messages.add( message );
-						}
-					}
+					double dist = star1.distance(star2);
+					allDistances += dist;
 					numDistances++;
 				}
 				Double avg = allDistances/numDistances;
@@ -299,9 +283,9 @@ public class IdealCapitalStar extends UniversalActor  {
 }}			}
 			{
 				Token token_2_0 = new Token();
-				// standardOutput<-println(smallestAverage)
+				// standardOutput<-println("minimum average distance: "+smallestAverage)
 				{
-					Object _arguments[] = { smallestAverage };
+					Object _arguments[] = { "minimum average distance: "+smallestAverage };
 					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
 					__messages.add( message );
 				}
@@ -314,15 +298,27 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 		public void printStars(Vector capitals) {
-			for (int i = 0; i<capitals.size(); i++){
-				Star c = (Star)capitals.get(i);
-				{
-					// standardOutput<-println(c)
+			{
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				for (int i = 0; i<capitals.size(); i++){
+					Star c = (Star)capitals.get(i);
 					{
-						Object _arguments[] = { c };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
+						// standardOutput<-println(c.toString())
+						{
+							Object _arguments[] = { c.toString() };
+							Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+							__messages.add( message );
+						}
 					}
+				}
+				addJoinToken(token_2_0);
+				// standardOutput<-println()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
+					__messages.add( message );
 				}
 			}
 		}

@@ -5,19 +5,6 @@ import java.util.*;
 
 behavior IdealJailStar{
 
-	/*
-	void outputJailStars( Vector stars ) {
-		findJailStars(stars) @
-		standardOutput<-printStars(token);
-	}
-	*/
-
-	void checkDist( double min, double dist ) {
-		if (dist < min) {
-			min = dist;
-		}
-	}
-
 	void findJailStars( Vector stars ) {
 		Double largestMinDistance = new Double(Double.MIN_VALUE);
 		Vector jailStars = new Vector();
@@ -28,13 +15,10 @@ behavior IdealJailStar{
 			for (int j=0; j<stars.size(); j++) {
 				if (i==j) continue;
 				Star star2 = (Star) stars.get(j);
-				token dist = star1<-distance(star2) @
-				checkDist(minDistance, token);
-				/*
+				double dist = star1.distance(star2);
 				if (dist < minDistance) {
 					minDistance = dist;
 				}
-				*/
 			}
 			if (minDistance > largestMinDistance) {
 				largestMinDistance = minDistance;
@@ -46,15 +30,17 @@ behavior IdealJailStar{
 			}
 		}
 
-		standardOutput<-println(minDistance) @
+		standardOutput<-println("maximum minimal distance: " + largestMinDistance) @
 		printStars(jailStars);
 	}
 
 	void printStars( Vector jails ) {
-		for (int i=0; i<jails.size(); i++) {
-			Star c = (Star) jails.get(i);
-			standardOutput<-println(c);
-		}
+		join {
+			for (int i=0; i<jails.size(); i++) {
+				Star c = (Star) jails.get(i);
+				standardOutput<-println(c);
+			}
+		} @ standardOutput<-println();
 	}
 
 }

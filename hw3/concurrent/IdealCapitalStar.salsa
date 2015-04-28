@@ -11,17 +11,6 @@ behavior IdealCapitalStar{
 	}
 	*/
 
-	/*
-	void outputCapitalStars( Vector stars ) {
-		findCapitalStars(stars) @
-		standardOutput<-printStars(token);
-	}
-	*/
-
-	void addDist(double totalDist, double dist) {
-		totalDist += dist;
-	}
-
 	void findCapitalStars( Vector stars ) {
 		Double smallestAverage = new Double(Double.MAX_VALUE);
 		Vector capitalStars = new Vector();
@@ -34,8 +23,8 @@ behavior IdealCapitalStar{
 			for (int j=0; j<stars.size(); j++) {
 				if (i==j) continue;
 				Star star2 = (Star) stars.get(j);
-				token dist = star1<-distance(star2) @ addDist(dist);
-				//allDistances += dist;
+				double dist = star1.distance(star2);
+				allDistances += dist;
 				numDistances++;
 			}
 			// computer average distance
@@ -50,15 +39,17 @@ behavior IdealCapitalStar{
 			}
 		}
 
-		standardOutput<-println(smallestAverage) @
+		standardOutput<-println("minimum average distance: " + smallestAverage) @
 		printStars(capitalStars);
 	}
 
 	void printStars( Vector capitals ) {
-		for (int i=0; i<capitals.size(); i++) {
-			Star c = (Star) capitals.get(i);
-			standardOutput<-println(c);
-		}
+		join {
+			for (int i=0; i<capitals.size(); i++) {
+				Star c = (Star) capitals.get(i);
+				standardOutput<-println(c.toString());
+			}
+		} @ standardOutput<-println();
 	}
 
 }

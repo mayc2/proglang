@@ -5,19 +5,6 @@ import java.util.*;
 
 behavior IdealHubStar{
 
-	/*
-	void outputHubStars( Vector stars ) {
-		findHubStars(stars) @
-		standardOutput<-printStars(token);
-	}
-	*/
-
-	void checkDist( double max, double dist ) {
-		if (dist > max) {
-			max = dist;
-		}
-	}
-
 	void findHubStars( Vector stars ) {
 		Double smallestMaxDistance = new Double(Double.MAX_VALUE);
 		Vector hubStars = new Vector();
@@ -28,13 +15,10 @@ behavior IdealHubStar{
 			for (int j=0; j<stars.size(); j++) {
 				if (i==j) continue;
 				Star star2 = (Star) stars.get(j);
-				token dist = star1<-distance(star2) @
-				checkDist(maxDistance, dist);
-				/*
+				double dist = star1.distance(star2);
 				if (dist > maxDistance) {
 					maxDistance = dist;
 				}
-				*/
 			}
 			if (maxDistance < smallestMaxDistance) {
 				smallestMaxDistance = maxDistance;
@@ -46,15 +30,17 @@ behavior IdealHubStar{
 			}
 		}
 
-		standardOutput<-println(maxDistance) @
+		standardOutput<-println("minimum maximal distance: " + smallestMaxDistance) @
 		printStars(hubStars);
 	}
 
 	void printStars( Vector hubs ) {
-		for (int i=0; i<hubs.size(); i++) {
-			Star c = (Star) hubs.get(i);
-			standardOutput<-println(c);
-		}
+		join {
+			for (int i=0; i<hubs.size(); i++) {
+				Star c = (Star) hubs.get(i);
+				standardOutput<-println(c);
+			}
+		} @ standardOutput<-println();
 	}
 
 }
