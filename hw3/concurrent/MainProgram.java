@@ -277,23 +277,39 @@ public class MainProgram extends UniversalActor  {
 				}
 			}
 			Vector stars = parse(fileName);
+			{
+				// test(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, self, "test", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
 			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
 		}
 		public void test(Vector stars) {
 			for (int i = 0; i<stars.size(); ++i){
 				Star tmpStar = (Star)stars.get(i);
 				double a, b, c;
+				Vector vecTmp = tmpStar.get();
 				{
 					Token token_3_0 = new Token();
-					// tmpStar<-getX()
+					// join block
+					token_3_0.setJoinDirector();
+					for (int j = 0; j<vecTmp.size(); ++j){
+						{
+							// standardOutput<-print(vecTmp.get(j))
+							{
+								Object _arguments[] = { vecTmp.get(j) };
+								Message message = new Message( self, standardOutput, "print", _arguments, null, token_3_0 );
+								__messages.add( message );
+							}
+						}
+					}
+					addJoinToken(token_3_0);
+					// standardOutput<-println()
 					{
 						Object _arguments[] = {  };
-						Message message = new Message( self, tmpStar, "getX", _arguments, null, token_3_0 );
-						__messages.add( message );
-					}
-					// standardOutput<-println(token)
-					{
-						Object _arguments[] = { token_3_0 };
 						Message message = new Message( self, standardOutput, "println", _arguments, token_3_0, null );
 						__messages.add( message );
 					}
@@ -312,7 +328,7 @@ public class MainProgram extends UniversalActor  {
 					x = Double.valueOf(tempStar2[0]).doubleValue();
 					y = Double.valueOf(tempStar2[1]).doubleValue();
 					z = Double.valueOf(tempStar2[2]).doubleValue();
-					Star tmp = ((Star)new Star(this).construct(x, y, z));
+					Star tmp = new Star(x, y, z);
 					ans.add(tmp);
 				}
 				in.close();
