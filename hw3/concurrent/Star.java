@@ -20,9 +20,9 @@ public class Star implements Serializable{
 		return ans;
 	}
 
-	private double getX(){return x;}
-	private double getY(){return y;}
-	private double getZ(){return z;}
+	public double getX(){return x;}
+	public double getY(){return y;}
+	public double getZ(){return z;}
 
 	public double getDiff(double val1, double val2) {
 		return val1-val2;

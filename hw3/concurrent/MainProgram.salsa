@@ -12,6 +12,11 @@ behavior MainProgram{
 		standardOutput <- println(" the filename is "+ fileName);
 		Vector stars = parse(fileName);
 		// test(stars);
+		// for(int i=0; i<1000; ++i){
+		// 	for(int j=i+1; j<1000; ++j){
+		// 		standardOutput <- println(stars.get(i).toString() + "   " + stars.get(j).toString());
+		// 	}
+		// }
 
 		/* 
 			creates new instance of each actor 

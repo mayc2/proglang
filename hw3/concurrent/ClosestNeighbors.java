@@ -265,49 +265,49 @@ public class ClosestNeighbors extends UniversalActor  {
 		}
 
 		Vector stars;
-		Star s1, s2;
+		Vector ans;
 		double smallest;
 		void construct(Vector s){
 			stars = s;
+			ans = new Vector();
 			smallest = 1000000000;
 		}
 		public void findClosest() {
-			for (int i = 0; i<10000; ++i){
+			for (int i = 0; i<stars.size(); ++i){
 				Star temp1 = (Star)stars.get(i);
-				for (int j = i+1; j<10000; ++j){
-					Star temp2 = (Star)stars.get(i+1);
+				for (int j = i+1; j<stars.size(); ++j){
+					Star temp2 = (Star)stars.get(j);
 					double temp_dist = temp1.distance(temp2);
 					if (smallest>temp_dist) {{
-						s1 = temp1;
-						s2 = temp2;
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						if (ans.size()!=0) {ans.removeAllElements();
+}						ans.add(temp_pair);
 						smallest = temp_dist;
 					}
-}				}
+}					else {if (smallest==temp_dist) {{
+						StarPair temp_pair = new StarPair(temp1, temp2);
+						ans.add(temp_pair);
+					}
+}}				}
 			}
 		}
 		public void print() {
 			{
-				// standardOutput<-println(s1.toString())
+				// standardOutput<-println("d1    // minimal pairwise distance is "+smallest)
 				{
-					Object _arguments[] = { s1.toString() };
+					Object _arguments[] = { "d1    // minimal pairwise distance is "+smallest };
 					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
-			{
-				// standardOutput<-println(s2.toString())
+			for (int i = 0; i<ans.size(); ++i){
 				{
-					Object _arguments[] = { s2.toString() };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			{
-				// standardOutput<-println("distance is "+smallest)
-				{
-					Object _arguments[] = { "distance is "+smallest };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
+					// standardOutput<-println(ans.get(i).toString())
+					{
+						Object _arguments[] = { ans.get(i).toString() };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
 				}
 			}
 		}
