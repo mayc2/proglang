@@ -21,7 +21,9 @@ behavior MainProgram{
 		ClosestNeighbors d1 = new ClosestNeighbors(stars);
 		d1 <- findClosest() @ 
 		d1 <- print();
-		// d2 = new FarthestNeighbors();
+		FarthestNeighbors d2 = new FarthestNeighbors(stars);
+		d2 <- findFarthest() @
+		d2 <- print();
 		// d3 = new IdealHubStar();
 		// d4 = new IdealJailStar();
 		// d5 = new IdealCapitalStar();

@@ -293,6 +293,22 @@ public class MainProgram extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
+			FarthestNeighbors d2 = ((FarthestNeighbors)new FarthestNeighbors(this).construct(stars));
+			{
+				Token token_2_0 = new Token();
+				// d2<-findFarthest()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d2, "findFarthest", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d2<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d2, "print", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
 		}
 		public void test(Vector stars) {
 			for (int i = 0; i<stars.size(); ++i){

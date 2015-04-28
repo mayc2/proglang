@@ -12,49 +12,49 @@ behavior IdealJailStar{
 	}
 	*/
 
-	void checkDist( double min, double dist ) {
-		if (dist < min) {
-			min = dist;
-		}
-	}
+	// void checkDist( double min, double dist ) {
+	// 	if (dist < min) {
+	// 		min = dist;
+	// 	}
+	// }
 
-	void findJailStars( Vector stars ) {
-		Double largestMinDistance = new Double(Double.MIN_VALUE);
-		Vector jailStars = new Vector();
+	// void findJailStars( Vector stars ) {
+	// 	Double largestMinDistance = new Double(Double.MIN_VALUE);
+	// 	Vector jailStars = new Vector();
 
-		for (int i=0; i<stars.size(); i++) {
-			Double minDistance = new Double(Double.MAX_VALUE);
-			Star star1 = (Star) stars.get(i);
-			for (int j=0; j<stars.size(); j++) {
-				if (i==j) continue;
-				Star star2 = (Star) stars.get(j);
-				token dist = star1<-distance(star2) @
-				checkDist(minDistance, token);
-				/*
-				if (dist < minDistance) {
-					minDistance = dist;
-				}
-				*/
-			}
-			if (minDistance > largestMinDistance) {
-				largestMinDistance = minDistance;
-				jailStars.clear();
-				jailStars.add(star1);
-			}
-			else if (minDistance == largestMinDistance) {
-				jailStars.add(star1);
-			}
-		}
+	// 	for (int i=0; i<stars.size(); i++) {
+	// 		Double minDistance = new Double(Double.MAX_VALUE);
+	// 		Star star1 = (Star) stars.get(i);
+	// 		for (int j=0; j<stars.size(); j++) {
+	// 			if (i==j) continue;
+	// 			Star star2 = (Star) stars.get(j);
+	// 			token dist = star1<-distance(star2) @
+	// 			checkDist(minDistance, token);
+	// 			/*
+	// 			if (dist < minDistance) {
+	// 				minDistance = dist;
+	// 			}
+	// 			*/
+	// 		}
+	// 		if (minDistance > largestMinDistance) {
+	// 			largestMinDistance = minDistance;
+	// 			jailStars.clear();
+	// 			jailStars.add(star1);
+	// 		}
+	// 		else if (minDistance == largestMinDistance) {
+	// 			jailStars.add(star1);
+	// 		}
+	// 	}
 
-		standardOutput<-println(minDistance) @
-		printStars(jailStars);
-	}
+	// 	standardOutput<-println(minDistance) @
+	// 	printStars(jailStars);
+	// }
 
-	void printStars( Vector jails ) {
-		for (int i=0; i<jails.size(); i++) {
-			Star c = (Star) jails.get(i);
-			standardOutput<-println(c);
-		}
-	}
+	// void printStars( Vector jails ) {
+	// 	for (int i=0; i<jails.size(); i++) {
+	// 		Star c = (Star) jails.get(i);
+	// 		standardOutput<-println(c);
+	// 	}
+	// }
 
 }
