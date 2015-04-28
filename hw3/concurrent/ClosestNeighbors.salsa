@@ -6,17 +6,32 @@ import java.util.*;
 behavior ClosestNeighbors{
 	Vector stars;
 	Star s1,s2;
+	double smallest;
 
 	ClosestNeighbors(Vector s){	
 		stars = s;
+		smallest = 1000000000;
 	}
 
-
-
 	void findClosest(){
-		for(int i=0; i<stars.size()-1; i+2){
-			Star temp1 = stars.get(i);
-			Star temp2 = stars.get(i+1);		
+		for(int i=0; i<10000; ++i){
+			Star temp1 = (Star)stars.get(i);
+			for (int j=i+1; j<10000; ++j) {
+				Star temp2 = (Star)stars.get(i+1);	
+				double temp_dist = temp1.distance(temp2);
+				// standardOutput <- println(temp2.toString());
+				if (smallest > temp_dist){
+					s1 = temp1;
+					s2 = temp2;
+					smallest = temp_dist;
+				}
+			}	
 		}
+	}
+
+	void print(){
+		standardOutput <- println(s1.toString());
+		standardOutput <- println(s2.toString());
+		standardOutput <- println("distance is " + smallest);
 	}
 }

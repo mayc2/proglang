@@ -277,15 +277,22 @@ public class MainProgram extends UniversalActor  {
 				}
 			}
 			Vector stars = parse(fileName);
+			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
 			{
-				// test(stars)
+				Token token_2_0 = new Token();
+				// d1<-findClosest()
 				{
-					Object _arguments[] = { stars };
-					Message message = new Message( self, self, "test", _arguments, null, null );
+					Object _arguments[] = {  };
+					Message message = new Message( self, d1, "findClosest", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d1<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d1, "print", _arguments, token_2_0, null );
 					__messages.add( message );
 				}
 			}
-			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
 		}
 		public void test(Vector stars) {
 			for (int i = 0; i<stars.size(); ++i){

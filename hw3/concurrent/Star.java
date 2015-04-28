@@ -3,7 +3,7 @@ package concurrent;
 import java.util.*;
 import java.io.*;
 
-public class Star{
+public class Star implements Serializable{
 	public double x,y,z;
 
 	public Star(double a, double b, double c){

@@ -19,6 +19,8 @@ behavior MainProgram{
 			note: may need to change scope (make global)
 		*/
 		ClosestNeighbors d1 = new ClosestNeighbors(stars);
+		d1 <- findClosest() @ 
+		d1 <- print();
 		// d2 = new FarthestNeighbors();
 		// d3 = new IdealHubStar();
 		// d4 = new IdealJailStar();

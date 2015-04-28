@@ -261,7 +261,7 @@ public class IdealCapitalStar extends UniversalActor  {
 		public void addDist(double totalDist, double dist) {
 			totalDist += dist;
 		}
-		public Vector findCapitalStars(Vector stars) {
+		public void findCapitalStars(Vector stars) {
 			Double smallestAverage = new Double(Double.MAX_VALUE);
 			Vector capitalStars = new Vector();
 			int numDistances = 0;
