@@ -258,25 +258,8 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 
-		public void outputCapitalStars(Vector stars) {
-			{
-				Token token_2_0 = new Token();
-				// findCapitalStars(stars)
-				{
-					Object _arguments[] = { stars };
-					Message message = new Message( self, self, "findCapitalStars", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// standardOutput<-printStars(token)
-				{
-					Object _arguments[] = { token_2_0 };
-					Message message = new Message( self, standardOutput, "printStars", _arguments, token_2_0, null );
-					__messages.add( message );
-				}
-			}
-		}
-		public void setDist(double dst, double src) {
-			dst = src;
+		public void addDist(double totalDist, double dist) {
+			totalDist += dist;
 		}
 		public Vector findCapitalStars(Vector stars) {
 			Double smallestAverage = new Double(Double.MAX_VALUE);
@@ -287,23 +270,21 @@ public class IdealCapitalStar extends UniversalActor  {
 				Star star1 = (Star)stars.get(i);
 				for (int j = 0; j<stars.size(); j++){
 					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
-					double dist = 0.0;
+					Token dist = new Token("dist");
 					{
-						Token token_4_0 = new Token();
-						// star1<-distance(star2)
+						// token dist = star1<-distance(star2)
 						{
 							Object _arguments[] = { star2 };
-							Message message = new Message( self, star1, "distance", _arguments, null, token_4_0 );
+							Message message = new Message( self, star1, "distance", _arguments, null, dist );
 							__messages.add( message );
 						}
-						// setDist(dist, token)
+						// addDist(dist)
 						{
-							Object _arguments[] = { dist, token_4_0 };
-							Message message = new Message( self, self, "setDist", _arguments, token_4_0, null );
+							Object _arguments[] = { dist };
+							Message message = new Message( self, self, "addDist", _arguments, dist, null );
 							__messages.add( message );
 						}
 					}
-					allDistances += dist;
 					numDistances++;
 				}
 				Double avg = allDistances/numDistances;
@@ -316,7 +297,21 @@ public class IdealCapitalStar extends UniversalActor  {
 					capitalStars.add(star1);
 				}
 }}			}
-			return capitalStars;
+			{
+				Token token_2_0 = new Token();
+				// standardOutput<-println(smallestAverage)
+				{
+					Object _arguments[] = { smallestAverage };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// printStars(capitalStars)
+				{
+					Object _arguments[] = { capitalStars };
+					Message message = new Message( self, self, "printStars", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
 		}
 		public void printStars(Vector capitals) {
 			for (int i = 0; i<capitals.size(); i++){
