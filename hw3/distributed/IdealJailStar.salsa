@@ -38,7 +38,7 @@ behavior IdealJailStar{
 	}
 
 	void print() {
-		standardOutput<-println("d4    // maximum minimal distance is " + largestMinDistance);
+		standardOutput<-println("d4    // maximum minimal distance is " + largestMinDistance) @
 		join {
 			for (int i=0; i<jailStars.size(); i++) {
 				Star c = (Star) jailStars.get(i);

@@ -286,33 +286,32 @@ public class IdealJailStar extends UniversalActor  {
 		}
 		public void print() {
 			{
+				Token token_2_0 = new Token();
+				Token token_2_1 = new Token();
 				// standardOutput<-println("d4    // maximum minimal distance is "+largestMinDistance)
 				{
 					Object _arguments[] = { "d4    // maximum minimal distance is "+largestMinDistance };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
 					__messages.add( message );
 				}
-			}
-			{
-				Token token_2_0 = new Token();
 				// join block
-				token_2_0.setJoinDirector();
+				token_2_1.setJoinDirector();
 				for (int i = 0; i<jailStars.size(); i++){
 					Star c = (Star)jailStars.get(i);
 					{
 						// standardOutput<-println(c)
 						{
 							Object _arguments[] = { c };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+							Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, token_2_1 );
 							__messages.add( message );
 						}
 					}
 				}
-				addJoinToken(token_2_0);
+				addJoinToken(token_2_1);
 				// standardOutput<-println()
 				{
 					Object _arguments[] = {  };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_1, null );
 					__messages.add( message );
 				}
 			}

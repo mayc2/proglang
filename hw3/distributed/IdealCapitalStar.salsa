@@ -40,7 +40,7 @@ behavior IdealCapitalStar{
 	}
 
 	void print() {
-		standardOutput<-println("d5    // minimum average distance is " + smallestAverage);
+		standardOutput<-println("d5    // minimum average distance is " + smallestAverage) @
 		join {
 			for (int i=0; i<capitalStars.size(); i++) {
 				Star c = (Star) capitalStars.get(i);
