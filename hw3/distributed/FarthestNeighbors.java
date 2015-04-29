@@ -263,7 +263,7 @@ public class FarthestNeighbors extends UniversalActor  {
 			largest = -1;
 		}
 		public void findFarthest(Vector stars) {
-			int length = 200;
+			int length = stars.size();
 			for (int i = 0; i<length; ++i){
 				Star temp1 = (Star)stars.get(i);
 				for (int j = i+1; j<length; ++j){

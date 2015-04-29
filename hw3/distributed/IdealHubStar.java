@@ -263,7 +263,7 @@ public class IdealHubStar extends UniversalActor  {
 			hubStars = new Vector();
 		}
 		public void findHubStars(Vector stars) {
-			int length = 200;
+			int length = stars.size();
 			for (int i = 0; i<length; i++){
 				Double maxDistance = new Double(-1.0);
 				Star star1 = (Star)stars.get(i);
