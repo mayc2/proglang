@@ -24,14 +24,10 @@ public class Star implements Serializable{
 	public double getY(){return y;}
 	public double getZ(){return z;}
 
-	public double getDiff(double val1, double val2) {
-		return val1-val2;
-	}
-
 	public double distance(Star other){
-		double x_val = getDiff(other.getX(),x);
-		double y_val = getDiff(other.getY(),y);
-		double z_val = getDiff(other.getZ(),z);
+		double x_val = other.getX() - x;
+		double y_val = other.getY() - y;
+		double z_val = other.getZ() - z;
 
 		return Math.sqrt((x_val*x_val)+(y_val*y_val)+(z_val*z_val));
 	}
