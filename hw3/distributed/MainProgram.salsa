@@ -14,13 +14,12 @@ behavior MainProgram{
 	void act(String [] argv){
 		int argc = argv.length;
 		if (argc < 1){
-			standardError <- println("USAGE: salsa <MainActor> <input_file> <noActors> <nameServer> <theatersFile>");
+			standardError <- println("USAGE: salsa <MainActor> <input_file> <nameServer> <theatersFile>");
 			return;
 		}
 		if (argc >= 1) fileName = argv[0];
-		if (argc >= 2) noActors = Integer.parseInt(argv[1]);
-		if (argc >= 3) nameServer = argv[2];
-		if (argc >= 4) theatersFile = argv[3];
+		if (argc >= 2) nameServer = argv[2];
+		if (argc >= 3) theatersFile = argv[3];
 		standardOutput <- println("fileName: " + fileName + ", noActors: " + noActors + ", nameServer: " + nameServer + ", theatersFile: " + theatersFile);
 		DistributeWork();
 	}

@@ -275,9 +275,9 @@ public class MainProgram extends UniversalActor  {
 			int argc = argv.length;
 			if (argc<1) {{
 				{
-					// standardError<-println("USAGE: salsa <MainActor> <input_file> <noActors> <nameServer> <theatersFile>")
+					// standardError<-println("USAGE: salsa <MainActor> <input_file> <nameServer> <theatersFile>")
 					{
-						Object _arguments[] = { "USAGE: salsa <MainActor> <input_file> <noActors> <nameServer> <theatersFile>" };
+						Object _arguments[] = { "USAGE: salsa <MainActor> <input_file> <nameServer> <theatersFile>" };
 						Message message = new Message( self, standardError, "println", _arguments, null, null );
 						__messages.add( message );
 					}
@@ -285,9 +285,8 @@ public class MainProgram extends UniversalActor  {
 				return;
 			}
 }			if (argc>=1) {fileName = argv[0];
-}			if (argc>=2) {noActors = Integer.parseInt(argv[1]);
-}			if (argc>=3) {nameServer = argv[2];
-}			if (argc>=4) {theatersFile = argv[3];
+}			if (argc>=2) {nameServer = argv[2];
+}			if (argc>=3) {theatersFile = argv[3];
 }			{
 				// standardOutput<-println("fileName: "+fileName+", noActors: "+noActors+", nameServer: "+nameServer+", theatersFile: "+theatersFile)
 				{

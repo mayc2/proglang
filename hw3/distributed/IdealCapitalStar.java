@@ -263,7 +263,7 @@ public class IdealCapitalStar extends UniversalActor  {
 			capitalStars = new Vector();
 		}
 		public void findCapitalStars(Vector stars) {
-			int length = 200;
+			int length = stars.size();
 			for (int i = 0; i<length; i++){
 				int numDistances = 0;
 				double allDistances = 0.0;

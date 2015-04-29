@@ -13,8 +13,8 @@ behavior ClosestNeighbors{
 	}
 
 	void findClosest(Vector stars){
-		// int length = stars.size();
-		int length =200;
+		int length = stars.size();
+		// int length =200;
 		for(int i=0; i<length; ++i){
 			Star temp1 = (Star)stars.get(i);
 			for (int j=i+1; j<length; ++j) {
