@@ -270,6 +270,7 @@ public class MainProgram extends UniversalActor  {
 		int noActors = 0;
 		String nameServer = "localhost";
 		String theatersFile = "theatersFile.txt";
+		Vector stars = new Vector();
 		public void act(String[] argv) {
 			int argc = argv.length;
 			if (argc<1) {{
@@ -295,7 +296,17 @@ public class MainProgram extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
-			Vector stars = parse(fileName);
+			{
+				// DistributeWork()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, self, "DistributeWork", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void DistributeWork() {
+			stars = (Vector)parse(fileName);
 			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
 			{
 				Token token_2_0 = new Token();
@@ -309,6 +320,70 @@ public class MainProgram extends UniversalActor  {
 				{
 					Object _arguments[] = {  };
 					Message message = new Message( self, d1, "print", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+			FarthestNeighbors d2 = ((FarthestNeighbors)new FarthestNeighbors(this).construct(stars));
+			{
+				Token token_2_0 = new Token();
+				// d2<-findFarthest()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d2, "findFarthest", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d2<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d2, "print", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+			IdealHubStar d3 = ((IdealHubStar)new IdealHubStar(this).construct());
+			{
+				Token token_2_0 = new Token();
+				// d3<-findHubStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d3, "findHubStars", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d3<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d3, "print", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+			IdealJailStar d4 = ((IdealJailStar)new IdealJailStar(this).construct());
+			{
+				Token token_2_0 = new Token();
+				// d4<-findJailStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d4, "findJailStars", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d4<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d4, "print", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+			IdealCapitalStar d5 = ((IdealCapitalStar)new IdealCapitalStar(this).construct());
+			{
+				Token token_2_0 = new Token();
+				// d5<-findCapitalStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d5, "findCapitalStars", _arguments, null, token_2_0 );
+					__messages.add( message );
+				}
+				// d5<-print()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, d5, "print", _arguments, token_2_0, null );
 					__messages.add( message );
 				}
 			}

@@ -15,8 +15,8 @@ behavior ClosestNeighbors{
 	}
 
 	void findClosest(){
-		// int length = stars.size();
-		int length =200;
+		int length = stars.size();
+		// int length =200;
 		for(int i=0; i<length; ++i){
 			Star temp1 = (Star)stars.get(i);
 			for (int j=i+1; j<length; ++j) {
@@ -39,8 +39,10 @@ behavior ClosestNeighbors{
 
 	void print(){
 		standardOutput <- println("d1    // minimal pairwise distance is " + smallest);
-		for(int i=0; i<ans.size(); ++i){
-			standardOutput <- println(ans.get(i).toString());
-		}
+		join {
+			for(int i=0; i<ans.size(); ++i){
+				standardOutput <- println(ans.get(i).toString());
+			}
+		} @ standardOutput <- println();
 	}
 }

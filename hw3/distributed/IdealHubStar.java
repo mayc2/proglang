@@ -174,8 +174,8 @@ public class IdealHubStar extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct() {
-		Object[] __arguments = { };
+	public UniversalActor construct () {
+		Object[] __arguments = {  };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
@@ -200,8 +200,6 @@ public class IdealHubStar extends UniversalActor  {
 			addClassName( "distributed.IdealHubStar$State" );
 			addMethodsForClasses();
 		}
-
-		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -258,21 +256,25 @@ public class IdealHubStar extends UniversalActor  {
 			}
 		}
 
+		Double smallestMaxDistance;
+		Vector hubStars;
+		void construct(){
+			smallestMaxDistance = new Double(Double.MAX_VALUE);
+			hubStars = new Vector();
+		}
 		public void findHubStars(Vector stars) {
-			Double smallestMaxDistance = new Double(Double.MAX_VALUE);
-			Vector hubStars = new Vector();
-			int length = 100;
+			int length = stars.size();
 			for (int i = 0; i<length; i++){
-				Double maxDistance = new Double(Double.MIN_VALUE);
+				Double maxDistance = new Double(-1.0);
 				Star star1 = (Star)stars.get(i);
-				for (int j = 0; j<length; j++){
-					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
+				for (int j = i+1; j<length; j++){
+					Star star2 = (Star)stars.get(j);
 					double dist = star1.distance(star2);
 					if (dist>maxDistance) {{
 						maxDistance = dist;
 					}
 }				}
-				if (maxDistance<smallestMaxDistance) {{
+				if (maxDistance>0&&maxDistance<smallestMaxDistance) {{
 					smallestMaxDistance = maxDistance;
 					hubStars.clear();
 					hubStars.add(star1);
@@ -281,29 +283,22 @@ public class IdealHubStar extends UniversalActor  {
 					hubStars.add(star1);
 				}
 }}			}
+		}
+		public void print() {
 			{
-				Token token_2_0 = new Token();
-				// standardOutput<-println("minimum maximal distance: "+smallestMaxDistance)
+				// standardOutput<-println("d3    // minimum maximal distance is "+smallestMaxDistance)
 				{
-					Object _arguments[] = { "minimum maximal distance: "+smallestMaxDistance };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// printStars(hubStars)
-				{
-					Object _arguments[] = { hubStars };
-					Message message = new Message( self, self, "printStars", _arguments, token_2_0, null );
+					Object _arguments[] = { "d3    // minimum maximal distance is "+smallestMaxDistance };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
-		}
-		public void printStars(Vector hubs) {
 			{
 				Token token_2_0 = new Token();
 				// join block
 				token_2_0.setJoinDirector();
-				for (int i = 0; i<hubs.size(); i++){
-					Star c = (Star)hubs.get(i);
+				for (int i = 0; i<hubStars.size(); i++){
+					Star c = (Star)hubStars.get(i);
 					{
 						// standardOutput<-println(c)
 						{

@@ -8,7 +8,8 @@ behavior MainProgram{
 	int noActors = 0;
 	String nameServer = "localhost";
 	String theatersFile = "theatersFile.txt";
-	Vector stars;
+	Vector stars = new Vector();
+
 	/* Runs all of the calculations defined in other behavior files */
 	void act(String [] argv){
 		int argc = argv.length;
@@ -26,23 +27,24 @@ behavior MainProgram{
 
 	void DistributeWork(){
 
+		stars = (Vector) parse(fileName);
 
-/*		stars = parse(fileName);
-
-		ClosestNeighbors d1 = new ClosestNeighbors(stars);
+/*		ClosestNeighbors d1 = new ClosestNeighbors(stars);
 		d1 <- findClosest() @ 
 		d1 <- print();
 		FarthestNeighbors d2 = new FarthestNeighbors(stars);
 		d2 <- findFarthest() @
 		d2 <- print();
 		IdealHubStar d3 = new IdealHubStar();
-		d3 <- findHubStars(stars);
+		d3 <- findHubStars(stars) @
+		d3 <- print();
 		IdealJailStar d4 = new IdealJailStar();
-		d4 <- findJailStars(stars);
+		d4 <- findJailStars(stars) @
+		d4 <- print();
 		IdealCapitalStar d5 = new IdealCapitalStar();
-		d5 <- findCapitalStars(stars);
-*/
-	}
+		d5 <- findCapitalStars(stars) @
+		d5 <- print();
+*/	}
 
 	Vector parse(String fileName){
 		Vector ans = new Vector();
