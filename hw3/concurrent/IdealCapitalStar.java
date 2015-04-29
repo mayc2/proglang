@@ -174,8 +174,8 @@ public class IdealCapitalStar extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct() {
-		Object[] __arguments = { };
+	public UniversalActor construct () {
+		Object[] __arguments = {  };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
@@ -200,8 +200,6 @@ public class IdealCapitalStar extends UniversalActor  {
 			addClassName( "concurrent.IdealCapitalStar$State" );
 			addMethodsForClasses();
 		}
-
-		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -258,16 +256,19 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 
+		Double smallestAverage;
+		Vector capitalStars;
+		void construct(){
+			smallestAverage = new Double(Double.MAX_VALUE);
+			capitalStars = new Vector();
+		}
 		public void findCapitalStars(Vector stars) {
-			Double smallestAverage = new Double(Double.MAX_VALUE);
-			Vector capitalStars = new Vector();
-			int numDistances = 0;
-			int length = 100;
-			for (int i = 0; i<length; i++){
+			for (int i = 0; i<stars.size(); i++){
+				int numDistances = 0;
 				double allDistances = 0.0;
 				Star star1 = (Star)stars.get(i);
-				for (int j = 0; j<length; j++){
-					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
+				for (int j = 0; j<stars.size(); j++){
+					Star star2 = (Star)stars.get(j);
 					double dist = star1.distance(star2);
 					allDistances += dist;
 					numDistances++;
@@ -282,30 +283,22 @@ public class IdealCapitalStar extends UniversalActor  {
 					capitalStars.add(star1);
 				}
 }}			}
+		}
+		public void print() {
 			{
-				// standardOutput<-println("minimum average distance: "+smallestAverage)
+				// standardOutput<-println("d5    // minimum average distance is "+smallestAverage)
 				{
-					Object _arguments[] = { "minimum average distance: "+smallestAverage };
+					Object _arguments[] = { "d5    // minimum average distance is "+smallestAverage };
 					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
 			{
-				// printStars(capitalStars)
-				{
-					Object _arguments[] = { capitalStars };
-					Message message = new Message( self, self, "printStars", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-		}
-		public void printStars(Vector capitals) {
-			{
 				Token token_2_0 = new Token();
 				// join block
 				token_2_0.setJoinDirector();
-				for (int i = 0; i<capitals.size(); i++){
-					Star c = (Star)capitals.get(i);
+				for (int i = 0; i<capitalStars.size(); i++){
+					Star c = (Star)capitalStars.get(i);
 					{
 						// standardOutput<-println(c.toString())
 						{

@@ -18,17 +18,25 @@ behavior MainProgram{
 			note: may need to change scope (make global)
 		*/
 		ClosestNeighbors d1 = new ClosestNeighbors(stars);
+		FarthestNeighbors d2 = new FarthestNeighbors(stars);
+		IdealHubStar d3 = new IdealHubStar();
+		IdealJailStar d4 = new IdealJailStar();
+		IdealCapitalStar d5 = new IdealCapitalStar();
+
 		d1 <- findClosest() @ 
 		d1 <- print();
-		FarthestNeighbors d2 = new FarthestNeighbors(stars);
+
 		d2 <- findFarthest() @
 		d2 <- print();
-		IdealHubStar d3 = new IdealHubStar();
-		d3 <- findHubStars(stars);
-		IdealJailStar d4 = new IdealJailStar();
-		d4 <- findJailStars(stars);
-		IdealCapitalStar d5 = new IdealCapitalStar();
-		d5 <- findCapitalStars(stars);
+		
+		d3 <- findHubStars(stars) @
+		d3 <- print();
+		
+		d4 <- findJailStars(stars) @
+		d4 <- print();
+		
+		d5 <- findCapitalStars(stars) @
+		d5 <- print();
 	}
 
 	Vector parse(String fileName){

@@ -273,7 +273,7 @@ public class ClosestNeighbors extends UniversalActor  {
 			smallest = 1000000000;
 		}
 		public void findClosest() {
-			int length = 200;
+			int length = stars.size();
 			for (int i = 0; i<length; ++i){
 				Star temp1 = (Star)stars.get(i);
 				for (int j = i+1; j<length; ++j){
@@ -301,14 +301,26 @@ public class ClosestNeighbors extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
-			for (int i = 0; i<ans.size(); ++i){
-				{
-					// standardOutput<-println(ans.get(i).toString())
+			{
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				for (int i = 0; i<ans.size(); ++i){
 					{
-						Object _arguments[] = { ans.get(i).toString() };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
+						// standardOutput<-println(ans.get(i).toString())
+						{
+							Object _arguments[] = { ans.get(i).toString() };
+							Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+							__messages.add( message );
+						}
 					}
+				}
+				addJoinToken(token_2_0);
+				// standardOutput<-println()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
+					__messages.add( message );
 				}
 			}
 		}

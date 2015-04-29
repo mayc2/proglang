@@ -174,8 +174,8 @@ public class IdealJailStar extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct() {
-		Object[] __arguments = { };
+	public UniversalActor construct () {
+		Object[] __arguments = {  };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
@@ -200,8 +200,6 @@ public class IdealJailStar extends UniversalActor  {
 			addClassName( "concurrent.IdealJailStar$State" );
 			addMethodsForClasses();
 		}
-
-		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -258,15 +256,18 @@ public class IdealJailStar extends UniversalActor  {
 			}
 		}
 
+		Double largestMinDistance;
+		Vector jailStars;
+		void construct(){
+			largestMinDistance = new Double(-1.0);
+			jailStars = new Vector();
+		}
 		public void findJailStars(Vector stars) {
-			Double largestMinDistance = new Double(Double.MIN_VALUE);
-			Vector jailStars = new Vector();
-			int length = 100;
-			for (int i = 0; i<length; i++){
+			for (int i = 0; i<stars.size(); i++){
 				Double minDistance = new Double(Double.MAX_VALUE);
 				Star star1 = (Star)stars.get(i);
-				for (int j = 0; j<length; j++){
-					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
+				for (int j = i+1; j<stars.size(); j++){
+					Star star2 = (Star)stars.get(j);
 					double dist = star1.distance(star2);
 					if (dist<minDistance) {{
 						minDistance = dist;
@@ -281,29 +282,22 @@ public class IdealJailStar extends UniversalActor  {
 					jailStars.add(star1);
 				}
 }}			}
+		}
+		public void print() {
 			{
-				Token token_2_0 = new Token();
-				// standardOutput<-println("maximum minimal distance: "+largestMinDistance)
+				// standardOutput<-println("d4    // maximum minimal distance is "+largestMinDistance)
 				{
-					Object _arguments[] = { "maximum minimal distance: "+largestMinDistance };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// printStars(jailStars)
-				{
-					Object _arguments[] = { jailStars };
-					Message message = new Message( self, self, "printStars", _arguments, token_2_0, null );
+					Object _arguments[] = { "d4    // maximum minimal distance is "+largestMinDistance };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
-		}
-		public void printStars(Vector jails) {
 			{
 				Token token_2_0 = new Token();
 				// join block
 				token_2_0.setJoinDirector();
-				for (int i = 0; i<jails.size(); i++){
-					Star c = (Star)jails.get(i);
+				for (int i = 0; i<jailStars.size(); i++){
+					Star c = (Star)jailStars.get(i);
 					{
 						// standardOutput<-println(c)
 						{
