@@ -1,0 +1,42 @@
+module distributed;
+
+import java.io.*;
+import java.util.*;
+
+behavior Calculator{
+	int type;
+	Vector stars = new Vector();
+
+	Calculator(int a,Vector s){
+		if (a > 4 || a < 0){
+			standardError <- println("ERROR: invalid initialization distance type [0-4]");
+			return;
+		}
+		type = a + 1;
+		stars = s;	
+	} 
+
+	void calculate(){
+		if (type == 1){
+			ClosestNeighbors d1 = new ClosestNeighbors();
+			d1 <- findClosest(stars) @ 
+			d1 <- print();
+		}else if (type == 2){
+			FarthestNeighbors d2 = new FarthestNeighbors();
+			d2 <- findFarthest(stars) @
+			d2 <- print();
+		}else if (type == 3){
+			IdealHubStar d3 = new IdealHubStar();
+			d3 <- findHubStars(stars) @
+			d3 <- print();
+		}else if (type == 4){
+			IdealJailStar d4 = new IdealJailStar();
+			d4 <- findJailStars(stars) @
+			d4 <- print();	
+		}else if (type == 5){
+			IdealCapitalStar d5 = new IdealCapitalStar();	
+			d5 <- findCapitalStars(stars) @
+			d5 <- print();
+		}
+	}	
+}

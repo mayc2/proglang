@@ -5,7 +5,7 @@ import java.util.*;
 
 behavior MainProgram{
 	String fileName;
-	int noActors = 0;
+	int noActors = 5;
 	String nameServer = "localhost";
 	String theatersFile = "theatersFile.txt";
 	Vector stars = new Vector();
@@ -29,22 +29,42 @@ behavior MainProgram{
 
 		stars = (Vector) parse(fileName);
 
-/*		ClosestNeighbors d1 = new ClosestNeighbors(stars);
-		d1 <- findClosest() @ 
-		d1 <- print();
-		FarthestNeighbors d2 = new FarthestNeighbors(stars);
-		d2 <- findFarthest() @
-		d2 <- print();
-		IdealHubStar d3 = new IdealHubStar();
-		d3 <- findHubStars(stars) @
-		d3 <- print();
-		IdealJailStar d4 = new IdealJailStar();
-		d4 <- findJailStars(stars) @
-		d4 <- print();
-		IdealCapitalStar d5 = new IdealCapitalStar();
-		d5 <- findCapitalStars(stars) @
-		d5 <- print();
-*/	}
+		//Create Actors
+		Calculator[] calculations = new Calculator[noActors];
+		for (int i=0; i<noActors; ++i){
+			calculations[i] = new Calculator(i,stars);
+		}
+
+		
+		//read available theaters
+		Vector theaters = new Vector();
+		String theater;
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(theatersFile));
+			while ((theater = in.readLine()) != null){
+				theaters.add(theater);
+			}
+		} catch (IOException ioe){
+			standardError<-println("ERROR: Can't open the file " + theatersFile + " for reading.");
+		}
+
+		//migrate actors to theaters
+		for (int i=0; i<noActors; i++){
+			standardOutput <- println("Sending actor " + 
+				"uan://"+nameServer+":3030/d"+i+" to "+
+				"rmsp://"+theaters.get(i%theaters.size())+"/d"+i);
+
+			calculations[i] = new Calculator(i,stars) at
+			(new UAN("uan://"+nameServer+":3030/d"+i),
+			 new UAL("rmsp://"+theaters.get(i%theaters.size())+"/d"+i));
+		}
+
+		//computations
+		for (int i=0; i<noActors; ++i){
+			calculations[i] <- calculate();
+		}
+		
+	}
 
 	Vector parse(String fileName){
 		Vector ans = new Vector();

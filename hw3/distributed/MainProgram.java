@@ -267,7 +267,7 @@ public class MainProgram extends UniversalActor  {
 		}
 
 		String fileName;
-		int noActors = 0;
+		int noActors = 5;
 		String nameServer = "localhost";
 		String theatersFile = "theatersFile.txt";
 		Vector stars = new Vector();
@@ -307,84 +307,48 @@ public class MainProgram extends UniversalActor  {
 		}
 		public void DistributeWork() {
 			stars = (Vector)parse(fileName);
-			ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct(stars));
-			{
-				Token token_2_0 = new Token();
-				// d1<-findClosest()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d1, "findClosest", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// d1<-print()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d1, "print", _arguments, token_2_0, null );
-					__messages.add( message );
+			Calculator[] calculations = new Calculator[noActors];
+			for (int i = 0; i<noActors; ++i){
+				calculations[i] = ((Calculator)new Calculator(this).construct(i, stars));
+			}
+			Vector theaters = new Vector();
+			String theater;
+			try {
+				BufferedReader in = new BufferedReader(new FileReader(theatersFile));
+				while ((theater=in.readLine())!=null) {
+					theaters.add(theater);
 				}
 			}
-			FarthestNeighbors d2 = ((FarthestNeighbors)new FarthestNeighbors(this).construct(stars));
-			{
-				Token token_2_0 = new Token();
-				// d2<-findFarthest()
+			catch (IOException ioe) {
 				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d2, "findFarthest", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// d2<-print()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d2, "print", _arguments, token_2_0, null );
-					__messages.add( message );
+					// standardError<-println("ERROR: Can't open the file "+theatersFile+" for reading.")
+					{
+						Object _arguments[] = { "ERROR: Can't open the file "+theatersFile+" for reading." };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
 				}
 			}
-			IdealHubStar d3 = ((IdealHubStar)new IdealHubStar(this).construct());
-			{
-				Token token_2_0 = new Token();
-				// d3<-findHubStars(stars)
+
+			for (int i = 0; i<noActors; i++){
 				{
-					Object _arguments[] = { stars };
-					Message message = new Message( self, d3, "findHubStars", _arguments, null, token_2_0 );
-					__messages.add( message );
+					// standardOutput<-println("Sending actor "+"uan://"+nameServer+":3030/d"+i+" to "+"rmsp://"+theaters.get(i%theaters.size())+"/d"+i)
+					{
+						Object _arguments[] = { "Sending actor "+"uan://"+nameServer+":3030/d"+i+" to "+"rmsp://"+theaters.get(i%theaters.size())+"/d"+i };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
 				}
-				// d3<-print()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d3, "print", _arguments, token_2_0, null );
-					__messages.add( message );
-				}
+				calculations[i] = ((Calculator)new Calculator(new UAN("uan://"+nameServer+":3030/d"+i), new UAL("rmsp://"+theaters.get(i%theaters.size())+"/d"+i),this).construct(i, stars));
 			}
-			IdealJailStar d4 = ((IdealJailStar)new IdealJailStar(this).construct());
-			{
-				Token token_2_0 = new Token();
-				// d4<-findJailStars(stars)
+			for (int i = 0; i<noActors; ++i){
 				{
-					Object _arguments[] = { stars };
-					Message message = new Message( self, d4, "findJailStars", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// d4<-print()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d4, "print", _arguments, token_2_0, null );
-					__messages.add( message );
-				}
-			}
-			IdealCapitalStar d5 = ((IdealCapitalStar)new IdealCapitalStar(this).construct());
-			{
-				Token token_2_0 = new Token();
-				// d5<-findCapitalStars(stars)
-				{
-					Object _arguments[] = { stars };
-					Message message = new Message( self, d5, "findCapitalStars", _arguments, null, token_2_0 );
-					__messages.add( message );
-				}
-				// d5<-print()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, d5, "print", _arguments, token_2_0, null );
-					__messages.add( message );
+					// calculations[i]<-calculate()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, calculations[i], "calculate", _arguments, null, null );
+						__messages.add( message );
+					}
 				}
 			}
 		}

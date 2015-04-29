@@ -34,7 +34,7 @@ import salsa.resources.ActorService;
 import java.io.*;
 import java.util.*;
 
-public class FarthestNeighbors extends UniversalActor  {
+public class Calculator extends UniversalActor  {
 	public static void main(String args[]) {
 		UAN uan = null;
 		UAL ual = null;
@@ -69,7 +69,7 @@ public class FarthestNeighbors extends UniversalActor  {
 			ual = new UAL( ServiceFactory.getTheater().getLocation() + System.getProperty("identifier"));
 		}
 		RunTime.receivedMessage();
-		FarthestNeighbors instance = (FarthestNeighbors)new FarthestNeighbors(uan, ual,null).construct();
+		Calculator instance = (Calculator)new Calculator(uan, ual,null).construct();
 		gc.WeakReference instanceRef=new gc.WeakReference(uan,ual);
 		{
 			Object[] _arguments = { args };
@@ -82,18 +82,18 @@ public class FarthestNeighbors extends UniversalActor  {
 		RunTime.finishedProcessingMessage();
 	}
 
-	public static ActorReference getReferenceByName(UAN uan)	{ return new FarthestNeighbors(false, uan); }
-	public static ActorReference getReferenceByName(String uan)	{ return FarthestNeighbors.getReferenceByName(new UAN(uan)); }
-	public static ActorReference getReferenceByLocation(UAL ual)	{ return new FarthestNeighbors(false, ual); }
+	public static ActorReference getReferenceByName(UAN uan)	{ return new Calculator(false, uan); }
+	public static ActorReference getReferenceByName(String uan)	{ return Calculator.getReferenceByName(new UAN(uan)); }
+	public static ActorReference getReferenceByLocation(UAL ual)	{ return new Calculator(false, ual); }
 
-	public static ActorReference getReferenceByLocation(String ual)	{ return FarthestNeighbors.getReferenceByLocation(new UAL(ual)); }
-	public FarthestNeighbors(boolean o, UAN __uan)	{ super(false,__uan); }
-	public FarthestNeighbors(boolean o, UAL __ual)	{ super(false,__ual); }
-	public FarthestNeighbors(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
-	public FarthestNeighbors(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
-	public FarthestNeighbors(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
-	public FarthestNeighbors()		{  }
-	public FarthestNeighbors(UAN __uan, UAL __ual, Object obj) {
+	public static ActorReference getReferenceByLocation(String ual)	{ return Calculator.getReferenceByLocation(new UAL(ual)); }
+	public Calculator(boolean o, UAN __uan)	{ super(false,__uan); }
+	public Calculator(boolean o, UAL __ual)	{ super(false,__ual); }
+	public Calculator(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
+	public Calculator(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
+	public Calculator(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
+	public Calculator()		{  }
+	public Calculator(UAN __uan, UAL __ual, Object obj) {
 		//decide the type of sourceActor
 		//if obj is null, the actor must be the startup actor.
 		//if obj is an actorReference, this actor is created by a remote actor
@@ -116,7 +116,7 @@ public class FarthestNeighbors extends UniversalActor  {
 			      setSource(sourceActor.getUAN(), sourceActor.getUAL());
 			      activateGC();
 			    }
-			    createRemotely(__uan, __ual, "distributed.FarthestNeighbors", sourceRef);
+			    createRemotely(__uan, __ual, "distributed.Calculator", sourceRef);
 			  }
 
 			  // local creation
@@ -174,18 +174,24 @@ public class FarthestNeighbors extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct () {
-		Object[] __arguments = {  };
+	public UniversalActor construct (int a, Vector s) {
+		Object[] __arguments = { new Integer(a), s };
+		this.send( new Message(this, this, "construct", __arguments, null, null) );
+		return this;
+	}
+
+	public UniversalActor construct() {
+		Object[] __arguments = { };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
 
 	public class State extends UniversalActor .State {
-		public FarthestNeighbors self;
+		public Calculator self;
 		public void updateSelf(ActorReference actorReference) {
-			((FarthestNeighbors)actorReference).setUAL(getUAL());
-			((FarthestNeighbors)actorReference).setUAN(getUAN());
-			self = new FarthestNeighbors(false,getUAL());
+			((Calculator)actorReference).setUAL(getUAL());
+			((Calculator)actorReference).setUAN(getUAN());
+			self = new Calculator(false,getUAL());
 			self.setUAN(getUAN());
 			self.setUAL(getUAL());
 			self.activateGC();
@@ -197,9 +203,11 @@ public class FarthestNeighbors extends UniversalActor  {
 
 		public State(UAN __uan, UAL __ual) {
 			super(__uan, __ual);
-			addClassName( "distributed.FarthestNeighbors$State" );
+			addClassName( "distributed.Calculator$State" );
 			addMethodsForClasses();
 		}
+
+		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -256,63 +264,114 @@ public class FarthestNeighbors extends UniversalActor  {
 			}
 		}
 
-		Vector ans;
-		double largest;
-		void construct(){
-			ans = new Vector();
-			largest = -1;
-		}
-		public void findFarthest(Vector stars) {
-			int length = 200;
-			for (int i = 0; i<length; ++i){
-				Star temp1 = (Star)stars.get(i);
-				for (int j = i+1; j<length; ++j){
-					Star temp2 = (Star)stars.get(j);
-					double temp_dist = temp1.distance(temp2);
-					if (largest<temp_dist) {{
-						StarPair temp_pair = new StarPair(temp1, temp2);
-						if (ans.size()!=0) {ans.removeAllElements();
-}						ans.add(temp_pair);
-						largest = temp_dist;
-					}
-}					else {if (largest==temp_dist) {{
-						StarPair temp_pair = new StarPair(temp1, temp2);
-						ans.add(temp_pair);
-					}
-}}				}
-			}
-		}
-		public void print() {
-			{
-				// standardOutput<-println("d2    // maximal pairwise distance is "+largest)
+		int type;
+		Vector stars = new Vector();
+		void construct(int a, Vector s){
+			if (a>4||a<0) {{
 				{
-					Object _arguments[] = { "d2    // maximal pairwise distance is "+largest };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			{
-				Token token_2_0 = new Token();
-				// join block
-				token_2_0.setJoinDirector();
-				for (int i = 0; i<ans.size(); ++i){
+					// standardError<-println("ERROR: invalid initialization distance type [0-4]")
 					{
-						// standardOutput<-println(ans.get(i).toString())
-						{
-							Object _arguments[] = { ans.get(i).toString() };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
-							__messages.add( message );
-						}
+						Object _arguments[] = { "ERROR: invalid initialization distance type [0-4]" };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
 					}
 				}
-				addJoinToken(token_2_0);
-				// standardOutput<-println()
+				return;
+			}
+}			type = a+1;
+			stars = s;
+		}
+		public void calculate() {
+			if (type==1) {{
+				ClosestNeighbors d1 = ((ClosestNeighbors)new ClosestNeighbors(this).construct());
 				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
-					__messages.add( message );
+					Token token_3_0 = new Token();
+					// d1<-findClosest(stars)
+					{
+						Object _arguments[] = { stars };
+						Message message = new Message( self, d1, "findClosest", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// d1<-print()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, d1, "print", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
 				}
 			}
-		}
+}			else {if (type==2) {{
+				FarthestNeighbors d2 = ((FarthestNeighbors)new FarthestNeighbors(this).construct());
+				{
+					Token token_3_0 = new Token();
+					// d2<-findFarthest(stars)
+					{
+						Object _arguments[] = { stars };
+						Message message = new Message( self, d2, "findFarthest", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// d2<-print()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, d2, "print", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
+				}
+			}
+}			else {if (type==3) {{
+				IdealHubStar d3 = ((IdealHubStar)new IdealHubStar(this).construct());
+				{
+					Token token_3_0 = new Token();
+					// d3<-findHubStars(stars)
+					{
+						Object _arguments[] = { stars };
+						Message message = new Message( self, d3, "findHubStars", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// d3<-print()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, d3, "print", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
+				}
+			}
+}			else {if (type==4) {{
+				IdealJailStar d4 = ((IdealJailStar)new IdealJailStar(this).construct());
+				{
+					Token token_3_0 = new Token();
+					// d4<-findJailStars(stars)
+					{
+						Object _arguments[] = { stars };
+						Message message = new Message( self, d4, "findJailStars", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// d4<-print()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, d4, "print", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
+				}
+			}
+}			else {if (type==5) {{
+				IdealCapitalStar d5 = ((IdealCapitalStar)new IdealCapitalStar(this).construct());
+				{
+					Token token_3_0 = new Token();
+					// d5<-findCapitalStars(stars)
+					{
+						Object _arguments[] = { stars };
+						Message message = new Message( self, d5, "findCapitalStars", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// d5<-print()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, d5, "print", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
+				}
+			}
+}}}}}		}
 	}
 }

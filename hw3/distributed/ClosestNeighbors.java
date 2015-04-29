@@ -174,14 +174,8 @@ public class ClosestNeighbors extends UniversalActor  {
 		}
 	}
 
-	public UniversalActor construct (Vector s) {
-		Object[] __arguments = { s };
-		this.send( new Message(this, this, "construct", __arguments, null, null) );
-		return this;
-	}
-
-	public UniversalActor construct() {
-		Object[] __arguments = { };
+	public UniversalActor construct () {
+		Object[] __arguments = {  };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
 		return this;
 	}
@@ -206,8 +200,6 @@ public class ClosestNeighbors extends UniversalActor  {
 			addClassName( "distributed.ClosestNeighbors$State" );
 			addMethodsForClasses();
 		}
-
-		public void construct() {}
 
 		public void process(Message message) {
 			Method[] matches = getMatches(message.getMethodName());
@@ -264,16 +256,14 @@ public class ClosestNeighbors extends UniversalActor  {
 			}
 		}
 
-		Vector stars;
 		Vector ans;
 		double smallest;
-		void construct(Vector s){
-			stars = s;
+		void construct(){
 			ans = new Vector();
 			smallest = 1000000000;
 		}
-		public void findClosest() {
-			int length = stars.size();
+		public void findClosest(Vector stars) {
+			int length = 200;
 			for (int i = 0; i<length; ++i){
 				Star temp1 = (Star)stars.get(i);
 				for (int j = i+1; j<length; ++j){
