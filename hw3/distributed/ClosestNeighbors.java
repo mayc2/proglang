@@ -284,32 +284,31 @@ public class ClosestNeighbors extends UniversalActor  {
 		}
 		public void print() {
 			{
+				Token token_2_0 = new Token();
+				Token token_2_1 = new Token();
 				// standardOutput<-println("d1    // minimal pairwise distance is "+smallest)
 				{
 					Object _arguments[] = { "d1    // minimal pairwise distance is "+smallest };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
 					__messages.add( message );
 				}
-			}
-			{
-				Token token_2_0 = new Token();
 				// join block
-				token_2_0.setJoinDirector();
+				token_2_1.setJoinDirector();
 				for (int i = 0; i<ans.size(); ++i){
 					{
 						// standardOutput<-println(ans.get(i).toString())
 						{
 							Object _arguments[] = { ans.get(i).toString() };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+							Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, token_2_1 );
 							__messages.add( message );
 						}
 					}
 				}
-				addJoinToken(token_2_0);
+				addJoinToken(token_2_1);
 				// standardOutput<-println()
 				{
 					Object _arguments[] = {  };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_1, null );
 					__messages.add( message );
 				}
 			}
