@@ -38,7 +38,7 @@ behavior IdealHubStar{
 	}
 
 	void print() {
-		standardOutput<-println("d3    // minimum maximal distance is " + smallestMaxDistance);
+		standardOutput<-println("d3    // minimum maximal distance is " + smallestMaxDistance) @
 		join {
 			for (int i=0; i<hubStars.size(); i++) {
 				Star c = (Star) hubStars.get(i);
