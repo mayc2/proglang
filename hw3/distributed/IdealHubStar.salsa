@@ -1,0 +1,47 @@
+module concurrent;
+
+import java.io.*;
+import java.util.*;
+
+behavior IdealHubStar{
+
+	void findHubStars( Vector stars ) {
+		Double smallestMaxDistance = new Double(Double.MAX_VALUE);
+		Vector hubStars = new Vector();
+
+		// int length = stars.size();
+		int length = 100;
+		for (int i=0; i<length; i++) {
+			Double maxDistance = new Double(Double.MIN_VALUE);
+			Star star1 = (Star) stars.get(i);
+			for (int j=0; j<length; j++) {
+				if (i==j) continue;
+				Star star2 = (Star) stars.get(j);
+				double dist = star1.distance(star2);
+				if (dist > maxDistance) {
+					maxDistance = dist;
+				}
+			}
+			if (maxDistance < smallestMaxDistance) {
+				smallestMaxDistance = maxDistance;
+				hubStars.clear();
+				hubStars.add(star1);
+			}
+			else if (maxDistance == smallestMaxDistance) {
+				hubStars.add(star1);
+			}
+		}
+
+		standardOutput<-println("minimum maximal distance: " + smallestMaxDistance) @
+		printStars(hubStars);
+	}
+
+	void printStars( Vector hubs ) {
+		join {
+			for (int i=0; i<hubs.size(); i++) {
+				Star c = (Star) hubs.get(i);
+				standardOutput<-println(c);
+			}
+		} @ standardOutput<-println();
+	}
+}

@@ -1,0 +1,73 @@
+module concurrent;
+
+import java.io.*;
+import java.util.*;
+
+behavior MainProgram{
+
+	/* Runs all of the calculations defined in other behavior files */
+	void act(String [] argv){
+
+		String fileName = getInputFile(argv);
+		standardOutput <- println(" the filename is "+ fileName);
+		Vector stars = parse(fileName);
+
+		/* 
+			creates new instance of each actor 
+			TODO: let answers account for multiple answers
+			note: may need to change scope (make global)
+		*/
+		ClosestNeighbors d1 = new ClosestNeighbors(stars);
+		d1 <- findClosest() @ 
+		d1 <- print();
+		FarthestNeighbors d2 = new FarthestNeighbors(stars);
+		d2 <- findFarthest() @
+		d2 <- print();
+		IdealHubStar d3 = new IdealHubStar();
+		d3 <- findHubStars(stars);
+		IdealJailStar d4 = new IdealJailStar();
+		d4 <- findJailStars(stars);
+		IdealCapitalStar d5 = new IdealCapitalStar();
+		d5 <- findCapitalStars(stars);
+	}
+
+	Vector parse(String fileName){
+		Vector ans = new Vector();
+		String tempStar;
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(fileName));
+			int numStars = Integer.parseInt(in.readLine());
+			while((tempStar = in.readLine()) != null){
+				String[] tempStar2 = tempStar.split(" ");
+				double x,y,z;
+				x = Double.valueOf(tempStar2[0]).doubleValue();
+				y = Double.valueOf(tempStar2[1]).doubleValue();
+				z = Double.valueOf(tempStar2[2]).doubleValue();
+				Star tmp = new Star(x,y,z);
+				ans.add(tmp);
+			}
+			in.close();
+		}
+		catch (IOException ioe){
+			standardError <-println("ERROR: Can't open file "+fileName+" for reading.");
+		}
+		return ans;
+	}
+
+	//Read Arguments (Input File)
+	String getInputFile(String [] argv){
+		if (argv.length == 1){
+			return argv[0];
+		}
+		else{
+			standardError <- println("Usage: salsa PathToProgram/MainProgram InputFile");
+			return "ERROR!";
+		}
+	}
+
+	//combines strings, used when using token-passing continuation	
+	String combineStrings(String s1, String s2){
+		return s1+s2;
+	}
+
+}
