@@ -261,10 +261,11 @@ public class IdealJailStar extends UniversalActor  {
 		public void findJailStars(Vector stars) {
 			Double largestMinDistance = new Double(Double.MIN_VALUE);
 			Vector jailStars = new Vector();
-			for (int i = 0; i<stars.size(); i++){
+			int length = 100;
+			for (int i = 0; i<length; i++){
 				Double minDistance = new Double(Double.MAX_VALUE);
 				Star star1 = (Star)stars.get(i);
-				for (int j = 0; j<stars.size(); j++){
+				for (int j = 0; j<length; j++){
 					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
 					double dist = star1.distance(star2);
 					if (dist<minDistance) {{

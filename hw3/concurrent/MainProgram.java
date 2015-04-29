@@ -309,33 +309,31 @@ public class MainProgram extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
-		}
-		public void test(Vector stars) {
-			for (int i = 0; i<stars.size(); ++i){
-				Star tmpStar = (Star)stars.get(i);
-				double a, b, c;
-				Vector vecTmp = tmpStar.get();
+			IdealHubStar d3 = ((IdealHubStar)new IdealHubStar(this).construct());
+			{
+				// d3<-findHubStars(stars)
 				{
-					Token token_3_0 = new Token();
-					// join block
-					token_3_0.setJoinDirector();
-					for (int j = 0; j<vecTmp.size(); ++j){
-						{
-							// standardOutput<-print(vecTmp.get(j))
-							{
-								Object _arguments[] = { vecTmp.get(j) };
-								Message message = new Message( self, standardOutput, "print", _arguments, null, token_3_0 );
-								__messages.add( message );
-							}
-						}
-					}
-					addJoinToken(token_3_0);
-					// standardOutput<-println()
-					{
-						Object _arguments[] = {  };
-						Message message = new Message( self, standardOutput, "println", _arguments, token_3_0, null );
-						__messages.add( message );
-					}
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d3, "findHubStars", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			IdealJailStar d4 = ((IdealJailStar)new IdealJailStar(this).construct());
+			{
+				// d4<-findJailStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d4, "findJailStars", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			IdealCapitalStar d5 = ((IdealCapitalStar)new IdealCapitalStar(this).construct());
+			{
+				// d5<-findCapitalStars(stars)
+				{
+					Object _arguments[] = { stars };
+					Message message = new Message( self, d5, "findCapitalStars", _arguments, null, null );
+					__messages.add( message );
 				}
 			}
 		}

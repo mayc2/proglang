@@ -262,10 +262,11 @@ public class IdealCapitalStar extends UniversalActor  {
 			Double smallestAverage = new Double(Double.MAX_VALUE);
 			Vector capitalStars = new Vector();
 			int numDistances = 0;
-			for (int i = 0; i<stars.size(); i++){
+			int length = 100;
+			for (int i = 0; i<length; i++){
 				double allDistances = 0.0;
 				Star star1 = (Star)stars.get(i);
-				for (int j = 0; j<stars.size(); j++){
+				for (int j = 0; j<length; j++){
 					if (i==j) {continue;}					Star star2 = (Star)stars.get(j);
 					double dist = star1.distance(star2);
 					allDistances += dist;

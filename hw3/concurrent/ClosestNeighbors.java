@@ -273,9 +273,10 @@ public class ClosestNeighbors extends UniversalActor  {
 			smallest = 1000000000;
 		}
 		public void findClosest() {
-			for (int i = 0; i<stars.size(); ++i){
+			int length = 200;
+			for (int i = 0; i<length; ++i){
 				Star temp1 = (Star)stars.get(i);
-				for (int j = i+1; j<stars.size(); ++j){
+				for (int j = i+1; j<length; ++j){
 					Star temp2 = (Star)stars.get(j);
 					double temp_dist = temp1.distance(temp2);
 					if (smallest>temp_dist) {{
