@@ -1,4 +1,4 @@
-package concurrent;
+package distributed;
 
 import java.util.*;
 import java.io.*;

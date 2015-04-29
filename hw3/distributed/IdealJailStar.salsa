@@ -1,4 +1,4 @@
-module concurrent;
+module distributed;
 
 import java.io.*;
 import java.util.*;
