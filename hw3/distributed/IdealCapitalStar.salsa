@@ -1,0 +1,57 @@
+module concurrent;
+
+import java.io.*;
+import java.util.*;
+
+behavior IdealCapitalStar{
+
+	/*
+	void act(String [] argv) {
+	
+	}
+	*/
+
+	void findCapitalStars( Vector stars ) {
+		Double smallestAverage = new Double(Double.MAX_VALUE);
+		Vector capitalStars = new Vector();
+
+		int numDistances = 0;
+
+		// int length = stars.size();
+		int length = 100;
+		for (int i=0; i<length; i++) {
+			double allDistances = 0.0;
+			Star star1 = (Star) stars.get(i);
+			for (int j=0; j<length; j++) {
+				if (i==j) continue;
+				Star star2 = (Star) stars.get(j);
+				double dist = star1.distance(star2);
+				allDistances += dist;
+				numDistances++;
+			}
+			// computer average distance
+			Double avg = allDistances/numDistances;
+			if (avg < smallestAverage) {
+				smallestAverage = avg;
+				capitalStars.clear();
+				capitalStars.add(star1);
+			}
+			else if (avg == smallestAverage) {
+				capitalStars.add(star1);
+			}
+		}
+
+		standardOutput<-println("minimum average distance: " + smallestAverage) @
+		printStars(capitalStars);
+	}
+
+	void printStars( Vector capitals ) {
+		join {
+			for (int i=0; i<capitals.size(); i++) {
+				Star c = (Star) capitals.get(i);
+				standardOutput<-println(c.toString());
+			}
+		} @ standardOutput<-println();
+	}
+
+}
