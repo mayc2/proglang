@@ -258,7 +258,6 @@ public class IdealHubStar extends UniversalActor  {
 			}
 		}
 
-<<<<<<< HEAD
 		public void findHubStars(Vector stars) {
 			Double smallestMaxDistance = new Double(Double.MAX_VALUE);
 			Vector hubStars = new Vector();
@@ -322,7 +321,5 @@ public class IdealHubStar extends UniversalActor  {
 				}
 			}
 		}
-=======
->>>>>>> 498e6c6a1c1fea4c5ba06b62d3f9fde124a1522d
 	}
 }

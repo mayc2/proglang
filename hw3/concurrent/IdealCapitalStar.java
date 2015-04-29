@@ -258,12 +258,6 @@ public class IdealCapitalStar extends UniversalActor  {
 			}
 		}
 
-<<<<<<< HEAD
-=======
-		public void addDist(double totalDist, double dist) {
-			totalDist += dist;
-		}
->>>>>>> 498e6c6a1c1fea4c5ba06b62d3f9fde124a1522d
 		public void findCapitalStars(Vector stars) {
 			Double smallestAverage = new Double(Double.MAX_VALUE);
 			Vector capitalStars = new Vector();
@@ -288,17 +282,18 @@ public class IdealCapitalStar extends UniversalActor  {
 				}
 }}			}
 			{
-				Token token_2_0 = new Token();
 				// standardOutput<-println("minimum average distance: "+smallestAverage)
 				{
 					Object _arguments[] = { "minimum average distance: "+smallestAverage };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, token_2_0 );
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 					__messages.add( message );
 				}
+			}
+			{
 				// printStars(capitalStars)
 				{
 					Object _arguments[] = { capitalStars };
-					Message message = new Message( self, self, "printStars", _arguments, token_2_0, null );
+					Message message = new Message( self, self, "printStars", _arguments, null, null );
 					__messages.add( message );
 				}
 			}

@@ -39,7 +39,7 @@ behavior IdealCapitalStar{
 			}
 		}
 
-		standardOutput<-println("minimum average distance: " + smallestAverage) @
+		standardOutput<-println("minimum average distance: " + smallestAverage);
 		printStars(capitalStars);
 	}
 
